@@ -1,0 +1,15 @@
+ct_core_home:
+    path:     /
+    defaults: { _controller: CTCoreBundle:Home:index }
+ct_core_profil:
+    path:     /profil
+    defaults: { _controller: CTCoreBundle:Profil:view }
+ct_core_critiques:
+    path:    /critiques
+    defaults: { _controller: CTCoreBundle:Critique:index }
+ct_core_sonadages:
+    path:    /sondages
+    defaults: { _controller: CTCoreBundle:Sondage:index }
+ct_core_requetes:
+    path:    /requetes
+    defaults: { _controller: CTCoreBundle:Requete:index }

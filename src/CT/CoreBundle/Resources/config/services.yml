@@ -1,0 +1,4 @@
+services:
+#    ct_core.example:
+#        class: CT\CoreBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

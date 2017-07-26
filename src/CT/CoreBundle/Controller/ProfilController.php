@@ -8,8 +8,16 @@
 
 namespace CT\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ProfilController
+class ProfilController extends Controller
 {
+    public function viewAction($id)
+    {
+        $content = $this->get('templating')->render('CTCoreBundle:Profil:index.html.twig');
 
+        return new Response($content);
+
+    }
 }
