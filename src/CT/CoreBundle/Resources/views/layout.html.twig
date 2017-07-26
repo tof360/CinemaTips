@@ -1,17 +1,19 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    Annonces - {{ parent() }}
+    Guide Cinématographique - {{ parent() }}
 {% endblock %}
 
 {% block body %}
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1>Barre de recherche : La spécialité du site INCOMING !!!</h1>
+        <p class="lead">CinemaTips, le nouveau guide du cinema, un outil rapide précis détaillé et intuitif !!!</p>
 
-    {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
-    <h1>Annonces</h1>
+        <p>Ne perdez plus votre temps sur 4 supports différents toutes l'information cinématographique à porter de main juste ici !!! </p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Button qui déroule la recherche avancée stratosphérique</a></p>
+    </div>
 
-    <hr>
-
-    {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
     {% block ctcore_body %}
     {% endblock %}
 
