@@ -18,6 +18,9 @@ class AppKernel extends Kernel
             new CT\CoreBundle\CTCoreBundle(),
             new CT\UserBundle\CTUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Ornicar\GravatarBundle\OrnicarGravatarBundle(),
+            new Tmdb\SymfonyBundle\TmdbSymfonyBundle(),
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

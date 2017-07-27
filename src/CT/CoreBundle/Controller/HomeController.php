@@ -17,6 +17,7 @@ class HomeController extends Controller
     {
         $content = $this->get('templating')->render('CTCoreBundle:Home:index.html.twig');
 
+
         return new Response($content);
 
     }

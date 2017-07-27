@@ -62,6 +62,13 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+doctrine_cache:
+    providers:
+        tmdb_cache:
+            file_system:
+                directory: %kernel.root_dir%/cache/tmdb
+
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
@@ -80,3 +87,31 @@ fos_user:
     profile:
         form:
             type: CT\UserBundle\Form\RegistrationType
+# GravatarBundle Configuration
+ornicar_gravatar:
+    size : 50
+
+# TMDB Configuration
+tmdb_symfony:
+    api_key: "%tmdb_api_key%"
+    repositories:
+        enabled: true # Set to false to disable repositories
+    twig_extension:
+        enabled: true # Set to false to disable twig extensions
+    options:
+        adapter: null
+        secure: true # Set to false to disable https
+        host: "api.themoviedb.org/3/"
+        session_token: null
+        cache:
+            enabled: true # Set to false to disable cache
+            path: "%kernel.cache_dir%/themoviedb"
+            handler: null
+            subscriber: null
+        log:
+            enabled: false # Set to true to enable log
+            path: "%kernel.logs_dir%/themoviedb.log"
+            level: DEBUG
+            handler: null
+            subscriber: null
+

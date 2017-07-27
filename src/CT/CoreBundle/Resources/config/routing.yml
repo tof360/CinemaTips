@@ -2,12 +2,13 @@ ct_core_home:
     path:     /
     defaults: { _controller: CTCoreBundle:Home:index }
 
-ct_core_critiques:
-    path:    /critiques
-    defaults: { _controller: CTCoreBundle:Critique:index }
-ct_core_sonadages:
-    path:    /sondages
-    defaults: { _controller: CTCoreBundle:Sondage:index }
-ct_core_requetes:
-    path:    /requetes
-    defaults: { _controller: CTCoreBundle:Requete:index }
+ct_core_view:
+    path:    /film/{id}
+    defaults: { _controller: CTCoreBundle:Film:view }
+    requirements:
+        id: \d+
+ct_core_add:
+    path:    /add
+    defaults: { _controller: CTCoreBundle:Film:add }
+
+
