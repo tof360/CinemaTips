@@ -14,3 +14,8 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: false
 
+
+    user.form.registration:
+        class: CT\UserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: user_user_registration }

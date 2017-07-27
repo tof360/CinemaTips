@@ -4,6 +4,8 @@ namespace CT\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * User
@@ -22,33 +24,70 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Entrez votre nom", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=3,
+     *     max=255,
+     *     minMessage="Nom trop court.",
+     *     maxMessage="Nom trop long.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Entrez votre prénom.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=3,
+     *     max=255,
+     *     minMessage="Trop court pour un prénom.",
+     *     maxMessage="Trop long pour un prénom.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
-    private $firstname;
+    protected $firstname;
 
     /**
      * @ORM\Column(name="borndate", type="datetime", nullable=true)
+     *
+     * @Assert\NotBlank(message="Entrez votre date de naissance .", groups={"Registration", "Profile"})
+     *
      */
-    private $borndate;
+    protected $borndate;
 
     /**
      * @ORM\Column(name="country", type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="D'où venez vous ?", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="Trop long.",
+     *     groups="Profile"
+     * )
      */
-    private $country;
+    protected $country;
 
     /**
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Si vous avez un website ?", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="Trop long.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
-    private $website;
+    protected $website;
 
     /**
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Une petite description", groups={"Registration", "Profile"})
      */
-    private $description;
+    protected $description;
 
 
     /**
