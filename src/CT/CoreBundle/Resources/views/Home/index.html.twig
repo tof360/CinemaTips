@@ -2,7 +2,7 @@
 {% extends "CTCoreBundle::layout.html.twig" %}
 
 {% block title %}
-    Accueil - {{ parent() }}
+    Liste des Films - {{ parent() }}
 {% endblock %}
 
 {% block ctcore_body %}
@@ -10,13 +10,13 @@
         <h2>Liste des Films</h2>
 
         <ul>
-            {% for film in listFilms %}
+            {% for movie in listMovies %}
                 <li>
-                    <a href="{{ path('ct_core_view', {'id': film.id}) }}">
-                        {{ film.title }}
+                    <a href="{{ path('ct_core_view', {'id': movie.id}) }}">
+                        {{ movie.title }}
                     </a>
-                    par {{ film.author }},
-                    le {{ film.date|date('d/m/Y') }}
+                    par {{ movie.author }},
+                    le {{ movie.date|date('d/m/Y') }}
                 </li>
             {% else %}
                 <li>Pas (encore !) de films</li>

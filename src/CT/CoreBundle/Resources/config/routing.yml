@@ -4,23 +4,23 @@ ct_core_home:
 
 ct_core_view:
     path:    /film/{id}
-    defaults: { _controller: CTCoreBundle:Film:view }
+    defaults: { _controller: CTCoreBundle:Movie:view }
     requirements:
         id: \d+
 ct_core_add:
     path:    /add
-    defaults: { _controller: CTCoreBundle:Film:add }
+    defaults: { _controller: CTCoreBundle:Movie:add }
 
 ct_core_edit:
     path:      /edit/{id}
     defaults:
-        _controller: CTCoreBundle:Film:edit
+        _controller: CTCoreBundle:Movie:edit
     requirements:
         id: \d+
 
 ct_core_delete:
     path:      /delete/{id}
     defaults:
-        _controller: CTCoreBundle:Film:delete
+        _controller: CTCoreBundle:Movie:delete
     requirements:
         id: \d+

@@ -8,7 +8,7 @@
 
     <h2>Noter un film</h2>
 
-    {{ include("CTCoreBundle:Film:form.html.twig") }}
+    {{ include("CTCoreBundle:Movie:form.html.twig") }}
 
     <p>
         Vous éditez une annonce déjà existante, merci de ne pas changer
@@ -16,7 +16,7 @@
     </p>
 
     <p>
-        <a href="{{ path('ct_core_view', {'id': film.id}) }}" class="btn btn-default">
+        <a href="{{ path('ct_core_view', {'id': movie.id}) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
             Retour à l'annonce
         </a>
