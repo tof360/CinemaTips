@@ -11,7 +11,7 @@ namespace CT\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class FilmController extends Controller
+class MovieController extends Controller
 {
 
     public function loadMovieFromTMDB($id)
@@ -28,7 +28,7 @@ class FilmController extends Controller
     {
         $movie = $this->loadMovieFromTMDB($id);
 
-        $film = array(
+        $movie = array(
             'title'   => $movie->getTitle(),
             'id'      => $id,
             'author'  => 'Alexandre',
@@ -36,8 +36,8 @@ class FilmController extends Controller
             'date'    => $movie->getReleaseDate()
         );
 
-        return $this->render('CTCoreBundle:Film:view.html.twig', array(
-            'film' => $film
+        return $this->render('CTCoreBundle:Movie:view.html.twig', array(
+            'movie' => $movie
         ));
     }
 
@@ -56,7 +56,7 @@ class FilmController extends Controller
         }
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('CTCoreBundle:Film:add.html.twig');
+        return $this->render('CTCoreBundle:Movie:add.html.twig');
     }
 
     public function editAction($id, Request $request)
@@ -72,7 +72,7 @@ class FilmController extends Controller
 
         $movie = $this->loadMovieFromTMDB($id);
 
-        $film = array(
+        $movie = array(
             'title'   => $movie->getTitle(),
             'id'      => $id,
             'author'  => 'Alexandre',
@@ -80,8 +80,8 @@ class FilmController extends Controller
             'date'    => $movie->getReleaseDate()
         );
 
-        return $this->render('CTCoreBundle:Film:edit.html.twig', array(
-            'film' => $film
+        return $this->render('CTCoreBundle:Movie:edit.html.twig', array(
+            'movie' => $movie
         ));
     }
 
@@ -91,7 +91,7 @@ class FilmController extends Controller
 
         // Ici, on gérera la suppression de l'annonce en question
 
-        return $this->render('CTCOreBundle:Film:delete.html.twig');
+        return $this->render('CTCOreBundle:Movie:delete.html.twig');
     }
 }
 
