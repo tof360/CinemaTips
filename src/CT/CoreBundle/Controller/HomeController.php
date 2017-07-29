@@ -15,10 +15,7 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-        $content = $this->get('templating')->render('CTCoreBundle:Home:index.html.twig');
-
-
-        return new Response($content);
+        return $this->render('CTCoreBundle:Home:index.html.twig', array('listFilms' => array()));
 
     }
 

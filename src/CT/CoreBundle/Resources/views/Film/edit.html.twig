@@ -1,0 +1,25 @@
+{% extends "CTCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Noter un film - {{ parent() }}
+{% endblock %}
+
+{% block ctcore_body %}
+
+    <h2>Noter un film</h2>
+
+    {{ include("CTCoreBundle:Film:form.html.twig") }}
+
+    <p>
+        Vous éditez une annonce déjà existante, merci de ne pas changer
+        l'esprit général de l'annonce déjà publiée.
+    </p>
+
+    <p>
+        <a href="{{ path('ct_core_view', {'id': film.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à l'annonce
+        </a>
+    </p>
+
+{% endblock %}

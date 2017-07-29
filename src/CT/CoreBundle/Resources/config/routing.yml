@@ -11,4 +11,16 @@ ct_core_add:
     path:    /add
     defaults: { _controller: CTCoreBundle:Film:add }
 
+ct_core_edit:
+    path:      /edit/{id}
+    defaults:
+        _controller: CTCoreBundle:Film:edit
+    requirements:
+        id: \d+
 
+ct_core_delete:
+    path:      /delete/{id}
+    defaults:
+        _controller: CTCoreBundle:Film:delete
+    requirements:
+        id: \d+
