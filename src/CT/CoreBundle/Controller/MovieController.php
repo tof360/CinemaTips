@@ -12,6 +12,8 @@ use CT\CoreBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
+
 class MovieController extends Controller
 {
 
@@ -25,20 +27,31 @@ class MovieController extends Controller
 
     }
 
+
     public function viewAction($id)
     {
         $movie = $this->loadMovieFromTMDB($id);
-        $movie = array(
-            'title'   => $movie->getTitle(),
-            'id'      => $id,
-            'author' => 'AUTEUR MOULOT implémenter crew cast et genres', // $movie->getCredits()->getCrew()->getPerson(2326)->getName(),
-            'content' => $movie->getOverview(),
-            'date'    => $movie->getReleaseDate(),
 
+            $listPerson [] = $movie->getCredits()->getCrew();
+
+        $genres[] = array();
+        foreach ($movie->getGenres() as $genre) {
+            $genres [] = array('name' => $genre->getName());
+        }
+
+
+
+        $movie = array(
+            'title' => $movie->getTitle(),
+            'id' => $id,
+            'content' => $movie->getOverview(),
+            'date' => $movie->getReleaseDate(),
+            'person' => $movie->getCredits()->getCrew()
         );
 
         return $this->render('CTCoreBundle:Movie:view.html.twig', array(
-            'movie' => $movie
+            'movie' => $movie,
+            'listPerson' => $listPerson,
         ));
     }
 
