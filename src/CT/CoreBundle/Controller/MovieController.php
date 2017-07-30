@@ -8,6 +8,7 @@
 
 namespace CT\CoreBundle\Controller;
 
+use CT\CoreBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +19,7 @@ class MovieController extends Controller
     {
         $client = $this->get('tmdb.client');
         $repository = new \Tmdb\Repository\MovieRepository($client);
-        $movie      = $repository->load($id);
+        $movie      = $repository->load($id, array('language' => 'fr'));
 
         return $movie;
 
@@ -27,13 +28,13 @@ class MovieController extends Controller
     public function viewAction($id)
     {
         $movie = $this->loadMovieFromTMDB($id);
-
         $movie = array(
             'title'   => $movie->getTitle(),
             'id'      => $id,
-            'author'  => 'Alexandre',
+            'author' => 'AUTEUR MOULOT implémenter crew cast et genres', // $movie->getCredits()->getCrew()->getPerson(2326)->getName(),
             'content' => $movie->getOverview(),
-            'date'    => $movie->getReleaseDate()
+            'date'    => $movie->getReleaseDate(),
+
         );
 
         return $this->render('CTCoreBundle:Movie:view.html.twig', array(
@@ -41,22 +42,35 @@ class MovieController extends Controller
         ));
     }
 
-    public function addAction(Request $request)
+    public function addAction($id)
     {
-        // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
+        $movie = $this->loadMovieFromTMDB($id);
+        $ctMovie = new Movie();
+        $ctMovie->setId($id);
+        $ctMovie->setVoteAverage($movie->getVoteAverage());
+        $ctMovie->setRunTime($movie->getRuntime());
+        $ctMovie->setTitle($movie->getTitle());
+        $ctMovie->setBackdropPath($movie->getBackdropPath());
+        $ctMovie->setGenres($movie->getGenres());
+        $ctMovie->setAuthor($movie->getCredits()->getCrew());
+        $ctMovie->setCast($movie->getCredits()->getCast());
+        $ctMovie->setOriginalLanguage($movie->getOriginalLanguage());
+        $ctMovie->setVoteCount($movie->getVoteCount());
+        $ctMovie->setReleaseDate($movie->getReleaseDate());
+        $ctMovie->setPosterPath($movie->getPosterPath());
+        $ctMovie->setOverview($movie->getOverview());
+        $ctMovie->setOriginalTitle($movie->getOriginalTitle());
 
-        // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
-        if ($request->isMethod('POST')) {
-            // Ici, on s'occupera de la création et de la gestion du formulaire
+        // On récupère l'EntityManager
+        $em = $this->getDoctrine()->getManager();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($ctMovie);
 
-            // Puis on redirige vers la page de visualisation de cettte annonce
-            return $this->redirectToRoute('ct_core_view', array('id' => 5));
-        }
+        // Étape 2 : On « flush » tout ce qui a été persisté avant
+        $em->flush();
 
-        // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('CTCoreBundle:Movie:add.html.twig');
+        return $this->redirectToRoute('ct_core_view', array('id' => $ctMovie->getId()));
     }
 
     public function editAction($id, Request $request)

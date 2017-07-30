@@ -9,8 +9,8 @@
 {% block ctcore_body %}
 
     <h2>{{ movie.title }}</h2>
-    <i>Par {{ movie.author }}, le {{ movie.date|date('d/m/Y') }}</i>
-
+    <i>Par
+        {{ movie.author }}, le {{ movie.date|date('d/m/Y') }}</i>
     <div class="well">
         {{ movie.content }}
     </div>

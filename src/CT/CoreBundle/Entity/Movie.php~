@@ -653,28 +653,4 @@ class Movie
     {
         return $this->runTime;
     }
-
-    /**
-     * Set originalTitle
-     *
-     * @param string $originalTitle
-     *
-     * @return Movie
-     */
-    public function setOriginalTitle($originalTitle)
-    {
-        $this->originalTitle = $originalTitle;
-
-        return $this;
-    }
-
-    /**
-     * Get originalTitle
-     *
-     * @return string
-     */
-    public function getOriginalTitle()
-    {
-        return $this->originalTitle;
-    }
 }
