@@ -7,18 +7,33 @@
 {% endblock %}
 
 {% block ctcore_body %}
-
-    <h2>{{ movie.title }}</h2>
-    <i>Par
-
-
-
-
-        , le {{ movie.date|date('d/m/Y') }}</i>
     <div class="well">
-        {{ movie.content }}
+    <div class="row">
+    <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
+    <h4>{{ movie.runTime|minutes_to_iso8601_duration('H:M') }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-xs-6">{{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}</div>
+            <div class="col-xs-6">{{ movie.content }}</div>
+        </div>
     </div>
-
+        <div class="col-md-6">
+            Director :
+            <i>
+            {% for person in crew %}
+                {% if person.job == 'Director' %}
+                    {{ person.name }} &nbsp;
+                {% endif %}
+            {% endfor %}
+            </i></br>
+            Acteurs :
+            <i>
+                {% for person in cast|slice(0,5) %}
+                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} : {{ person.character }}
+                {% endfor %}
+            </i>
+    </div>
+    </div>
     <p>
         <a href="{{ path('ct_core_home') }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
@@ -33,5 +48,5 @@
             Supprimer le film
         </a>
     </p>
-
+    </div>
 {% endblock %}

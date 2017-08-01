@@ -17,41 +17,53 @@ use Symfony\Component\HttpFoundation\Request;
 class MovieController extends Controller
 {
 
-    public function loadMovieFromTMDB($id)
+    public function loadMovieRepository($id)
     {
         $client = $this->get('tmdb.client');
         $repository = new \Tmdb\Repository\MovieRepository($client);
-        $movie      = $repository->load($id, array('language' => 'fr'));
+        $movie      = $repository->load($id, array('language' => 'fr', 'append_to_response' => 'credits'));
 
         return $movie;
 
     }
 
-
     public function viewAction($id)
     {
-        $movie = $this->loadMovieFromTMDB($id);
+        $movie = $this->loadMovieRepository($id);
 
-            $listPerson [] = $movie->getCredits()->getCrew();
+
+
+        /**
+         * $listPerson [] = $movie->getCredits()->getCrew();
 
         $genres[] = array();
         foreach ($movie->getGenres() as $genre) {
             $genres [] = array('name' => $genre->getName());
         }
+         *
+         **/
 
-
-
+        $genres = $movie->getGenres();
+        $crew = $movie->getCredits()->getCrew();
+        $cast = $movie->getCredits()->getCast();
         $movie = array(
             'title' => $movie->getTitle(),
             'id' => $id,
             'content' => $movie->getOverview(),
             'date' => $movie->getReleaseDate(),
-            'person' => $movie->getCredits()->getCrew()
+            'backdropPath' => $movie->getBackdropPath(),
+            'posterPath' => $movie->getPosterPath(),
+            'originalTitle' => $movie->getOriginalTitle(),
+            'runTime' => $movie->getRuntime(),
+            'voteAverage' => $movie->getVoteAverage(),
+            'voteCount' => $movie->getVoteCount(),
         );
 
         return $this->render('CTCoreBundle:Movie:view.html.twig', array(
             'movie' => $movie,
-            'listPerson' => $listPerson,
+            'genres' => $genres,
+            'cast' => $cast,
+            'crew' => $crew,
         ));
     }
 
