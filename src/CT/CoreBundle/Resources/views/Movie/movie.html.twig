@@ -1,13 +1,4 @@
-{# src/OC/PlatformBundle/Resources/view/Advert/view.html.twig #}
-
-{% extends "CTCoreBundle::layout.html.twig" %}
-
-{% block title %}
-    Film - {{ parent() }}
-{% endblock %}
-
-{% block ctcore_body %}
-    <div class="well">
+<div class="well">
     <div class="row">
         <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
         <div class="col-md-5">
@@ -45,20 +36,3 @@
         </div>
     </div>
 </div>
-    <div class="row">
-    <p>
-        <a href="{{ path('ct_core_home') }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour à la liste
-        </a>
-        <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Modifier le film
-        </a>
-        <a href="{{ path('ct_core_delete', {'id': movie.id}) }}" class="btn btn-danger">
-            <i class="glyphicon glyphicon-trash"></i>
-            Supprimer le film
-        </a>
-    </p>
-    </div>
-{% endblock %}

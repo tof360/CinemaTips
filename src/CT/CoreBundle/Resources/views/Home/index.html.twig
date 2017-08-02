@@ -9,18 +9,11 @@
 
         <h2>Liste des Films</h2>
 
-        <ul>
-            {% for movie in listMovies %}
-                <li>
-                    <a href="{{ path('ct_core_view', {'id': movie.id}) }}">
-                        {{ movie.title }}
-                    </a>
-                    par {{ movie.author }},
-                    le {{ movie.date|date('d/m/Y') }}
-                </li>
-            {% else %}
-                <li>Pas (encore !) de films</li>
-            {% endfor %}
-        </ul>
+
+    {{ render(controller("CTCoreBundle:Home:movie", {'id' : 118340} )) }}
+    {{ render(controller("CTCoreBundle:Home:movie", {'id' : 315837} )) }}
+    {{ render(controller("CTCoreBundle:Home:movie", {'id' : 324852} )) }}
+    {{ render(controller("CTCoreBundle:Home:movie", {'id' : 157336} )) }}
+    {{ render(controller("CTCoreBundle:Home:movie", {'id' : 135397} )) }}
 
 {% endblock %}
