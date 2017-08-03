@@ -1,15 +1,12 @@
 ct_core_home:
     path:     /
-    defaults: { _controller: CTCoreBundle:Home:index }
+    defaults: { _controller: CTCoreBundle:Movie:index }
 
 ct_core_view:
     path:    /film/{id}
     defaults: { _controller: CTCoreBundle:Movie:view }
     requirements:
         id: \d+
-ct_core_add:
-    path:    /add/{id}
-    defaults: { _controller: CTCoreBundle:Movie:add }
 
 ct_core_edit:
     path:      /edit/{id}

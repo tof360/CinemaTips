@@ -165,6 +165,18 @@ class Movie
      */
     private $age;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="voteAverageCT", type="float")
+     */
+    private $voteAverageCT;
+
+    /**
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published = true;
+
 
     public function __construct()
     {
@@ -652,5 +664,53 @@ class Movie
     public function getRunTime()
     {
         return $this->runTime;
+    }
+
+    /**
+     * Set originalTitle
+     *
+     * @param string $originalTitle
+     *
+     * @return Movie
+     */
+    public function setOriginalTitle($originalTitle)
+    {
+        $this->originalTitle = $originalTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get originalTitle
+     *
+     * @return string
+     */
+    public function getOriginalTitle()
+    {
+        return $this->originalTitle;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Movie
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
     }
 }

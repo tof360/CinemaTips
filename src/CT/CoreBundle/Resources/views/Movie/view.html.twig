@@ -8,57 +8,86 @@
 
 {% block ctcore_body %}
     <div class="well">
-    <div class="row">
-        <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
-        <div class="col-md-5">
-            <p>
-            <h4>{{ movie.runTime|minutes_to_iso8601_duration }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>
-            </p>
-            <p>
-                {{ movie.content }}
-            </p>
-        </div>
-        <div class="col-md-5">
-            Director :
-            <i>
-                {% for person in crew %}
-                    {% if person.job == 'Director' %}
-                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} &nbsp;
-                    {% endif %}
-                {% endfor %}
-            </i></br>
-            Acteurs :
-            <i>
-                {% for person in cast|slice(0,5) %}
-                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} : {{ person.character }}
-                {% endfor %}
-            </i></br>
-
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
-                    Note Moyenne : {{ movie.voteAverage }}
+        <div class="row">
+            <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
+            <div class="col-md-8">
+                <h4>{{ movie.runTime|minutes_to_iso8601_duration }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>
+                <p>
+                    {{ movie.content }}
+                </p>
+                <div class="well well-sm">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
+                            Note TheMovieDB : {{ movie.voteAverage*10 }}%
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverageCT }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverageCT*10 }}%;">
+                                Note CinemaTips : {{ movie.voteAverageCT*10 }}%
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                {{ movie.posterPath|tmdb_image_html('original', null, 300)|raw }}
+            </div>
         </div>
-        <div class="col-md-2">
-            {{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}
+        <div class="panel panel-success">
+            <div class="panel-heading">Crew</div>
+            <div class="panel-body">
+            {% for person in crew %}
+                {% if person.job == 'Director' %}
+                    <div class="col-sm-2 col-md-2">
+                        <div class="thumbnail">
+                            {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }} &nbsp;
+                            <div class="caption">
+                                <h4>{{ person.name }}</h4>
+                                <p>{{ person.job }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+                {% for person in crew|slice(0,5) if person.profilePath %}
+                    {% if person.job != 'Director' %}
+                        <div class="col-sm-2 col-md-2">
+                            <div class="thumbnail">
+                                {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }} &nbsp;
+                                <div class="caption">
+                                    <h4>{{ person.name }}</h4>
+                                    <p>{{ person.job }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-</div>
-    <div class="row">
-    <p>
-        <a href="{{ path('ct_core_home') }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour à la liste
-        </a>
-        <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Modifier le film
-        </a>
-        <a href="{{ path('ct_core_delete', {'id': movie.id}) }}" class="btn btn-danger">
-            <i class="glyphicon glyphicon-trash"></i>
-            Supprimer le film
-        </a>
-    </p>
+        <div class="panel panel-info">
+            <div class="panel-heading">Cast</div>
+            <div class="panel-body">
+            {% for person in cast|slice(0,6) if person.profilePath %}
+                <div class="col-sm-2 col-md-2">
+                    <div class="thumbnail">
+                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}
+                        <div class="caption">
+                            <h4>{{ person.name }}</h4>
+                            <p>{{ person.character }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <a href="{{ path('ct_core_home') }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>
+                    Retour à la liste
+                </a>
+                <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i>
+                    Notez le film
+                </a>
+            </p>
+        </div>
     </div>
 {% endblock %}

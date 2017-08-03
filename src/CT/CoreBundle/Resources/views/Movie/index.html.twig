@@ -1,0 +1,16 @@
+
+{% extends "CTCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Liste des Films - {{ parent() }}
+{% endblock %}
+
+{% block ctcore_body %}
+
+        <h2>Liste des Films</h2>
+
+    {% for movie in listMovies %}
+    {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
+    {% endfor %}
+
+{% endblock %}

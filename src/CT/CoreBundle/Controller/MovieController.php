@@ -12,8 +12,6 @@ use CT\CoreBundle\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-
-
 class MovieController extends Controller
 {
 
@@ -27,36 +25,118 @@ class MovieController extends Controller
 
     }
 
+    public function indexAction()
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('CTCoreBundle:Movie')
+        ;
+
+        $listMovies = $repository->findAll();
+
+
+
+        return $this->render('CTCoreBundle:Movie:index.html.twig', array(
+            'listMovies' => $listMovies
+        ) );
+
+    }
+
+    public function movieAction($id)
+    {
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CTCoreBundle:Movie')
+        ;
+
+        // On récupère l'entité correspondante à l'id $id
+        $ctMovie = $repository->find($id);
+
+
+        $genres = $ctMovie->getGenres();
+        $crew = $ctMovie->getAuthor();
+        $cast = $ctMovie->getCast();
+        $movie = array(
+            'title' => $ctMovie->getTitle(),
+            'id' => $id,
+            'content' => $ctMovie->getOverview(),
+            'date' => $ctMovie->getReleaseDate(),
+            'backdropPath' => $ctMovie->getBackdropPath(),
+            'posterPath' => $ctMovie->getPosterPath(),
+            'originalTitle' => $ctMovie->getOriginalTitle(),
+            'runTime' => $ctMovie->getRuntime(),
+            'voteAverage' => $ctMovie->getVoteAverage(),
+            'voteCount' => $ctMovie->getVoteCount(),
+        );
+
+        return $this->render('CTCoreBundle:Movie:movie.html.twig', array(
+            'movie' => $movie,
+            'genres' => $genres,
+            'cast' => $cast,
+            'crew' => $crew,
+        ));
+    }
+
     public function viewAction($id)
     {
-        $movie = $this->loadMovieRepository($id);
 
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CTCoreBundle:Movie')
+        ;
 
+        // On récupère l'entité correspondante à l'id $id
+        $ctMovie = $repository->find($id);
 
-        /**
-         * $listPerson [] = $movie->getCredits()->getCrew();
+        // $ctMovie est donc une instance de OC\PlatformBundle\Entity\Movie
+        // ou null si l'id $id  n'existe pas, d'où ce if :
+        if (null === $ctMovie) {
+            $movie = $this->loadMovieRepository($id);
+            $ctMovie = new Movie();
+            $ctMovie->setId($id);
+            $ctMovie->setVoteAverage($movie->getVoteAverage());
+            $ctMovie->setRunTime($movie->getRuntime());
+            $ctMovie->setTitle($movie->getTitle());
+            $ctMovie->setBackdropPath($movie->getBackdropPath());
+            $ctMovie->setGenres($movie->getGenres());
+            $ctMovie->setAuthor($movie->getCredits()->getCrew());
+            $ctMovie->setCast($movie->getCredits()->getCast());
+            $ctMovie->setOriginalLanguage($movie->getOriginalLanguage());
+            $ctMovie->setVoteCount($movie->getVoteCount());
+            $ctMovie->setReleaseDate($movie->getReleaseDate());
+            $ctMovie->setPosterPath($movie->getPosterPath());
+            $ctMovie->setOverview($movie->getOverview());
+            $ctMovie->setOriginalTitle($movie->getOriginalTitle());
+            $ctMovie->setVoteAverageCT(8.5);
 
-        $genres[] = array();
-        foreach ($movie->getGenres() as $genre) {
-            $genres [] = array('name' => $genre->getName());
+            // On récupère l'EntityManager
+            $em = $this->getDoctrine()->getManager();
+
+            // Étape 1 : On « persiste » l'entité
+            $em->persist($ctMovie);
+
+            // Étape 2 : On « flush » tout ce qui a été persisté avant
+            $em->flush();
         }
-         *
-         **/
 
-        $genres = $movie->getGenres();
-        $crew = $movie->getCredits()->getCrew();
-        $cast = $movie->getCredits()->getCast();
+
+
+        $genres = $ctMovie->getGenres();
+        $crew = $ctMovie->getAuthor();
+        $cast = $ctMovie->getCast();
         $movie = array(
-            'title' => $movie->getTitle(),
+            'title' => $ctMovie->getTitle(),
             'id' => $id,
-            'content' => $movie->getOverview(),
-            'date' => $movie->getReleaseDate(),
-            'backdropPath' => $movie->getBackdropPath(),
-            'posterPath' => $movie->getPosterPath(),
-            'originalTitle' => $movie->getOriginalTitle(),
-            'runTime' => $movie->getRuntime(),
-            'voteAverage' => $movie->getVoteAverage(),
-            'voteCount' => $movie->getVoteCount(),
+            'content' => $ctMovie->getOverview(),
+            'date' => $ctMovie->getReleaseDate(),
+            'backdropPath' => $ctMovie->getBackdropPath(),
+            'posterPath' => $ctMovie->getPosterPath(),
+            'originalTitle' => $ctMovie->getOriginalTitle(),
+            'runTime' => $ctMovie->getRuntime(),
+            'voteAverage' => $ctMovie->getVoteAverage(),
+            'voteCount' => $ctMovie->getVoteCount(),
+            'voteAverageCT' => $ctMovie->getVoteAverageCT()
         );
 
         return $this->render('CTCoreBundle:Movie:view.html.twig', array(
@@ -67,36 +147,6 @@ class MovieController extends Controller
         ));
     }
 
-    public function addAction($id)
-    {
-        $movie = $this->loadMovieFromTMDB($id);
-        $ctMovie = new Movie();
-        $ctMovie->setId($id);
-        $ctMovie->setVoteAverage($movie->getVoteAverage());
-        $ctMovie->setRunTime($movie->getRuntime());
-        $ctMovie->setTitle($movie->getTitle());
-        $ctMovie->setBackdropPath($movie->getBackdropPath());
-        $ctMovie->setGenres($movie->getGenres());
-        $ctMovie->setAuthor($movie->getCredits()->getCrew());
-        $ctMovie->setCast($movie->getCredits()->getCast());
-        $ctMovie->setOriginalLanguage($movie->getOriginalLanguage());
-        $ctMovie->setVoteCount($movie->getVoteCount());
-        $ctMovie->setReleaseDate($movie->getReleaseDate());
-        $ctMovie->setPosterPath($movie->getPosterPath());
-        $ctMovie->setOverview($movie->getOverview());
-        $ctMovie->setOriginalTitle($movie->getOriginalTitle());
-
-        // On récupère l'EntityManager
-        $em = $this->getDoctrine()->getManager();
-
-        // Étape 1 : On « persiste » l'entité
-        $em->persist($ctMovie);
-
-        // Étape 2 : On « flush » tout ce qui a été persisté avant
-        $em->flush();
-
-        return $this->redirectToRoute('ct_core_view', array('id' => $ctMovie->getId()));
-    }
 
     public function editAction($id, Request $request)
     {
@@ -109,15 +159,7 @@ class MovieController extends Controller
             return $this->redirectToRoute('ct_core_view', array('id' => $id));
         }
 
-        $movie = $this->loadMovieFromTMDB($id);
-
-        $movie = array(
-            'title'   => $movie->getTitle(),
-            'id'      => $id,
-            'author'  => 'Alexandre',
-            'content' => $movie->getOverview(),
-            'date'    => $movie->getReleaseDate()
-        );
+       $movie = array('id' => $id);
 
         return $this->render('CTCoreBundle:Movie:edit.html.twig', array(
             'movie' => $movie
