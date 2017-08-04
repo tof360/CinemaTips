@@ -20,7 +20,9 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Ornicar\GravatarBundle\OrnicarGravatarBundle(),
             new Tmdb\SymfonyBundle\TmdbSymfonyBundle(),
-            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle()
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+            new blackknight467\StarRatingBundle\StarRatingBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
