@@ -177,6 +177,12 @@ class Movie
      */
     private $published = true;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="voteCountCT", type="integer", nullable=true)
+     */
+    private $voteCountCT;
 
     public function __construct()
     {
@@ -483,7 +489,14 @@ class Movie
      */
     public function setViolence($violence)
     {
-        $this->violence = $violence;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->violence = $violence;
+        }
+        else
+        {
+            $this->violence = ($this->getViolence()*($this->getVoteCountCT()-1) + $violence)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -507,7 +520,14 @@ class Movie
      */
     public function setComplexity($complexity)
     {
-        $this->complexity = $complexity;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->complexity = $complexity;
+        }
+        else
+        {
+            $this->complexity = ($this->getComplexity()*($this->getVoteCountCT()-1) + $complexity)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -531,7 +551,14 @@ class Movie
      */
     public function setTwist($twist)
     {
-        $this->twist = $twist;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->twist = $twist;
+        }
+        else
+        {
+            $this->twist = ($this->getTwist()*($this->getVoteCountCT()-1) + $twist)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -555,7 +582,14 @@ class Movie
      */
     public function setEmotion($emotion)
     {
-        $this->emotion = $emotion;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->emotion = $emotion;
+        }
+        else
+        {
+            $this->emotion = (($this->getEmotion())*($this->getVoteCountCT()-1) + $emotion)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -579,7 +613,14 @@ class Movie
      */
     public function setSpecialEffects($specialEffects)
     {
-        $this->specialEffects = $specialEffects;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->specialEffects = $specialEffects;
+        }
+        else
+        {
+            $this->specialEffects = ($this->getSpecialEffects()*($this->getVoteCountCT()-1) + $specialEffects)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -603,7 +644,14 @@ class Movie
      */
     public function setOriginilaty($originilaty)
     {
-        $this->originilaty = $originilaty;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->originilaty = $originilaty;
+        }
+        else
+        {
+            $this->originilaty = ($this->getOriginilaty()*($this->getVoteCountCT()-1) + $originilaty)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -723,7 +771,15 @@ class Movie
      */
     public function setVoteAverageCT($voteAverageCT)
     {
-        $this->voteAverageCT = $voteAverageCT;
+
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->voteAverageCT = $voteAverageCT;
+        }
+        else
+        {
+            $this->voteAverageCT = (($this->getVoteAverageCT())*($this->getVoteCountCT()-1) + $voteAverageCT)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -736,5 +792,27 @@ class Movie
     public function getVoteAverageCT()
     {
         return $this->voteAverageCT;
+    }
+
+    /**
+     * Set voteCountCT
+     *
+     * @return Movie
+     */
+    public function setVoteCountCT()
+    {
+        $this->voteCountCT = $this->getVoteCountCT() + 1;
+
+        return $this;
+    }
+
+    /**
+     * Get voteCountCT
+     *
+     * @return integer
+     */
+    public function getVoteCountCT()
+    {
+        return $this->voteCountCT;
     }
 }

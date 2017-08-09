@@ -111,7 +111,7 @@ class MovieController extends Controller
             $ctMovie->setPosterPath($movie->getPosterPath());
             $ctMovie->setOverview($movie->getOverview());
             $ctMovie->setOriginalTitle($movie->getOriginalTitle());
-            $ctMovie->setVoteAverageCT(8);
+
 
             // On récupère l'EntityManager
             $em = $this->getDoctrine()->getManager();
@@ -146,6 +146,7 @@ class MovieController extends Controller
             'emotion' => $ctMovie->getEmotion(),
             'specialEffects' => $ctMovie->getSpecialEffects(),
             'originality' => $ctMovie->getOriginilaty(),
+            'voteCountCT' => $ctMovie->getVoteCountCT()
         );
 
         return $this->render('CTCoreBundle:Movie:view.html.twig', array(
@@ -169,11 +170,10 @@ class MovieController extends Controller
         // On récupère l'entité correspondante à l'id $id
         $ctMovie = $repository->find($id);
 
-        // On crée le FormBuilder grâce au service form factory
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $ctMovie);
 
         // On ajoute les champs de l'entité que l'on veut à notre formulaire
-        $formBuilder
+        $form = $this->get('form.factory')->createBuilder(FormType::class, $ctMovie)
+            ->add('voteAverageCT', RatingType::class, ['stars'=> 10])
             ->add('originilaty',      RatingType::class, ['stars' => 10])
             ->add('specialEffects',     RatingType::class, ['stars' => 10])
             ->add('emotion',   RatingType::class, ['stars' => 10])
@@ -181,12 +181,8 @@ class MovieController extends Controller
             ->add('complexity', RatingType::class, ['stars' => 10])
             ->add('violence', RatingType::class, ['stars' => 10])
             ->add('save',      SubmitType::class)
+            ->getForm();
         ;
-        // Pour l'instant, pas de candidatures, catégories, etc., on les gérera plus tard
-
-        // À partir du formBuilder, on génère le formulaire
-        $form = $formBuilder->getForm();
-
         if ($request->isMethod('POST')) {
             // On fait le lien Requête <-> Formulaire
             // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
@@ -196,6 +192,7 @@ class MovieController extends Controller
             // (Nous verrons la validation des objets en détail dans le prochain chapitre)
             if ($form->isValid()) {
                 // On enregistre notre objet $advert dans la base de données, par exemple
+                $ctMovie->setVoteCountCT();
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($ctMovie);
                 $em->flush();
@@ -203,11 +200,9 @@ class MovieController extends Controller
                 $request->getSession()->getFlashBag()->add('notice', 'Vote bien enregistré.');
 
                 // On redirige vers la page de visualisation de l'annonce nouvellement créée
-                return $this->redirectToRoute('ct_core_edit', array('id' => $id));
+                return $this->redirectToRoute('ct_core_view', array('id' => $id));
             }
         }
-
-
 
         // On passe la méthode createView() du formulaire à la vue
         // afin qu'elle puisse afficher le formulaire toute seule

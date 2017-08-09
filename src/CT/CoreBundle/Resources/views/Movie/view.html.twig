@@ -16,46 +16,87 @@
                     {{ movie.content }}
                 </p>
                 <div class="well well-sm">
+                    <h4>Notations</h4>
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
-                            Note TheMovieDB : {{ movie.voteAverage*10 }}%
+                            The Movie DB: {{ movie.voteAverage*10 }}%
                         </div>
                     </div>
+                    {% if movie.voteCountCT == 0 %}
+                        <a href="{{ path('ct_core_edit', {'id': movie.id}) }}"> Ce film n'a pas encore été noté sur CinemaTips, soyez le premier ! </a>
+                    {% else %}
                     <div class="progress">
                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverageCT }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverageCT*10 }}%;">
-                                Note CinemaTips : {{ movie.voteAverageCT*10 }}%
+                            CinemaTips : {{ movie.voteAverageCT*10 }}%
                         </div>
                     </div>
                 </div>
-                Originalité: {{ movie.originality|rating(10) }} <br/>
-                Effets Spéciaux: {{ movie.specialEffects|rating(10) }} <br/>
-                Emotion: {{ movie.emotion|rating(10) }}<br/>
-                Retournement final: {{ movie.twist|rating(10) }}<br/>
-                Complexité: {{ movie.complexity|rating(10) }}<br/>
-                Violence: {{ movie.violence|rating(10) }}<br/>
-            </div>
-            <div class="col-md-4">
-                {{ movie.posterPath|tmdb_image_html('original', null, 300)|raw }}
-            </div>
-        </div>
-        <div class="panel panel-success">
-            <div class="panel-heading">Crew</div>
-            <div class="panel-body">
-            {% for person in crew %}
-                {% if person.job == 'Director' %}
-                    <div class="col-sm-2 col-md-2">
-                        <div class="thumbnail">
-                            {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }} &nbsp;
-                            <div class="caption">
-                                <h4>{{ person.name }}</h4>
-                                <p>{{ person.job }}</p>
-                            </div>
+
+                <div class="well well-sm">
+                    <h4>Notations avancées</h4>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.originality }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.originality*10 }}%;">
+                            Originalité: {{ movie.originality*10 }}%
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
-                {% for person in crew|slice(0,5) if person.profilePath %}
-                    {% if person.job != 'Director' %}
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.specialEffects }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.specialEffects*10 }}%;">
+                            Effets spéciaux: {{ movie.specialEffects*10 }}%
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.emotion }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.emotion*10 }}%;">
+                            Emotions: {{ movie.emotion*10 }}%
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.twist }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.twist*10 }}%;">
+                            Retournement final: {{ movie.twist*10 }}%
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.complexity }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.complexity*10 }}%;">
+                            Complexité: {{ movie.complexity*10 }}%
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.violence }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.violence*10 }}%;">
+                            Violence: {{ movie.violence*10 }}%
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="pull-right">
+                {{ movie.posterPath|tmdb_image_html('original', null, 300)|raw }}
+                </div>
+                <div class="center-block">
+                    <p>
+                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
+                        Notez le film
+                    </a>
+                    </p>
+                    <p>
+                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
+                        Notez le film
+                    </a>
+                    </p>
+                    <p>
+                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
+                        Notez le film
+                    </a>
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading">Crew</div>
+                <div class="panel-body display-flex">
+                {% for person in crew %}
+                    {% if person.job == 'Director' %}
                         <div class="col-sm-2 col-md-2">
                             <div class="thumbnail">
                                 {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }} &nbsp;
@@ -65,36 +106,38 @@
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
+                    {% endif %}
                 {% endfor %}
+                    {% for person in crew|slice(0,5) if person.profilePath %}
+                        {% if person.job != 'Director' %}
+                            <div class="col-sm-2 col-md-2">
+                                <div class="thumbnail">
+                                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }} &nbsp;
+                                    <div class="caption">
+                                        <h4>{{ person.name }}</h4>
+                                        <p>{{ person.job }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">Cast</div>
-            <div class="panel-body">
-            {% for person in cast|slice(0,6) if person.profilePath %}
-                <div class="col-sm-2 col-md-2">
-                    <div class="thumbnail">
-                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}
-                        <div class="caption">
-                            <h4>{{ person.name }}</h4>
-                            <p>{{ person.character }}</p>
+            <div class="panel panel-info">
+                <div class="panel-heading">Cast</div>
+                <div class="panel-body display-flex">
+                {% for person in cast|slice(0,6) if person.profilePath %}
+                    <div class="col-sm-2 col-md-2">
+                        <div class="thumbnail">
+                            {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}
+                            <div class="caption">
+                                <h4>{{ person.name }}</h4>
+                                <p>{{ person.character }}</p>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
                 </div>
-            {% endfor %}
             </div>
-        </div>
-        <div class="row">
-
-            <p>
-                <a href="{{ path('ct_core_home') }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>
-                    Retour à la liste
-                </a>
-                <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i>
-                    Notez le film
-                </a>
-            </p>
-        </div>
     </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 <div class="well">
     <div class="row">
-        <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
+        <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
         <div class="col-md-5">
             <p>
             <h4>{{ movie.runTime|minutes_to_iso8601_duration }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>

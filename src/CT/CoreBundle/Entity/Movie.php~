@@ -177,6 +177,12 @@ class Movie
      */
     private $published = true;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="voteCountCT", type="integer", nullable=true)
+     */
+    private $voteCountCT;
 
     public function __construct()
     {
@@ -712,5 +718,29 @@ class Movie
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set voteAverageCT
+     *
+     * @param float $voteAverageCT
+     *
+     * @return Movie
+     */
+    public function setVoteAverageCT($voteAverageCT)
+    {
+        $this->voteAverageCT = $voteAverageCT;
+
+        return $this;
+    }
+
+    /**
+     * Get voteAverageCT
+     *
+     * @return float
+     */
+    public function getVoteAverageCT()
+    {
+        return $this->voteAverageCT;
     }
 }
