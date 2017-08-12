@@ -3,9 +3,7 @@
 namespace CT\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Tmdb\Model\Collection\Genres;
-use Tmdb\Model\Collection\People\Cast;
-use Tmdb\Model\Collection\People\Crew;
+
 
 
 /**
@@ -63,28 +61,28 @@ class Movie
     /**
      * @var string
      *
-     * @ORM\Column(name="overview", type="string", length=255)
+     * @ORM\Column(name="overview", type="string", length=255, nullable=true)
      */
     private $overview;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="posterPath", type="string", length=255)
+     * @ORM\Column(name="posterPath", type="string", length=255, nullable=true)
      */
     private $posterPath;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="backdropPath", type="string", length=255)
+     * @ORM\Column(name="backdropPath", type="string", length=255, nullable=true)
      */
     private $backdropPath;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="voteAverage", type="float")
+     * @ORM\Column(name="voteAverage", type="float", nullable=true)
      */
     private $voteAverage;
 
@@ -154,9 +152,9 @@ class Movie
     /**
      * @var float
      *
-     * @ORM\Column(name="originilaty", type="float", nullable=true)
+     * @ORM\Column(name="originality", type="float", nullable=true)
      */
-    private $originilaty;
+    private $originality;
 
     /**
      * @var int
@@ -168,7 +166,7 @@ class Movie
     /**
      * @var float
      *
-     * @ORM\Column(name="voteAverageCT", type="float")
+     * @ORM\Column(name="voteAverageCT", type="float", nullable=true)
      */
     private $voteAverageCT;
 
@@ -638,19 +636,19 @@ class Movie
     /**
      * Set originilaty
      *
-     * @param float $originilaty
+     * @param float $originality
      *
      * @return Movie
      */
-    public function setOriginilaty($originilaty)
+    public function setOriginality($originality)
     {
         if($this->getVoteCountCT() == 0)
         {
-            $this->originilaty = $originilaty;
+            $this->originality = $originality;
         }
         else
         {
-            $this->originilaty = ($this->getOriginilaty()*($this->getVoteCountCT()-1) + $originilaty)/($this->getVoteCountCT());
+            $this->originality = ($this->getOriginality()*($this->getVoteCountCT()-1) + $originality)/($this->getVoteCountCT());
         }
 
         return $this;
@@ -661,9 +659,9 @@ class Movie
      *
      * @return float
      */
-    public function getOriginilaty()
+    public function getOriginality()
     {
-        return $this->originilaty;
+        return $this->originality;
     }
 
     /**

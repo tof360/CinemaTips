@@ -15,9 +15,12 @@ ct_core_edit:
     requirements:
         id: \d+
 
-ct_core_delete:
-    path:      /delete/{id}
+ct_core_advancedsearch:
+    path:      /advancedsearch
     defaults:
-        _controller: CTCoreBundle:Movie:delete
-    requirements:
-        id: \d+
+        _controller: CTCoreBundle:Movie:advancedSearch
+
+ct_core_showlist:
+    path: /showlist
+    defaults:
+       _controller: CTCoreBundle:Movie:showList

@@ -2,34 +2,44 @@
     <div class="row">
         <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
         <div class="col-md-5">
+            <h4>{% if movie.runTime == null %}N/A{% else %}{{ movie.runTime|minutes_to_iso8601_duration }}{% endif %}
+                - {% for genre in genres %}{{ genre.name }}, {% endfor %}
+            </h4>
             <p>
-            <h4>{{ movie.runTime|minutes_to_iso8601_duration }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>
-            </p>
-            <p>
+                {% if movie.content == null %}
+                Nous n'avons pas encore d'informations en Français pour ce film. Veuillez nous excuser, nous y travaillons !
+                {% else %}
                 {{ movie.content }}
+                {% endif %}
             </p>
-        </div>
-        <div class="col-md-5">
-            Director :
-            <i>
-                {% for person in crew %}
-                    {% if person.job == 'Director' %}
-                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} &nbsp;
-                    {% endif %}
-                {% endfor %}
-            </i></br>
-            Acteurs :
-            <i>
-                {% for person in cast|slice(0,5) %}
-                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} : {{ person.character }}
-                {% endfor %}
-            </i></br>
-
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
                     Note Moyenne : {{ movie.voteAverage }}
                 </div>
             </div>
+
+        </div>
+        <div class="col-md-5">
+
+            Director :
+            <i>
+                {% for person in crew %}
+                    {% if person.job == 'Director' %}
+            <div class="row">
+                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} &nbsp;
+            </div>
+                    {% endif %}
+                {% endfor %}
+            </i>
+
+            Acteurs :
+            <i>
+                {% for person in cast|slice(0,5) %}
+            <div class="row">
+                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} : {{ person.character }}
+            </div>
+                {% endfor %}
+            </i>
         </div>
         <div class="col-md-2">
             {{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}

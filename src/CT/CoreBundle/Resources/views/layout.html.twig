@@ -5,16 +5,22 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Jumbotron -->
-    <div class="jumbotron">
-        <h1>Barre de recherche : La spécialité du site INCOMING !!!</h1>
-        <p class="lead">CinemaTips, le nouveau guide du cinema, un outil rapide précis détaillé et intuitif !!!</p>
 
-        <p>Ne perdez plus votre temps sur 4 supports différents toutes l'information cinématographique à porter de main juste ici !!! </p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Button qui déroule la recherche avancée stratosphérique</a></p>
+    <div class="well">
+
+        {{ render(controller("CTCoreBundle:Movie:searchMovie" , {request: app.request})) }}
+
+        <a class="btn btn-success" href="{{ path('ct_core_advancedsearch') }}" role="button"> Recherche avancée stratosphérique</a>
+
     </div>
 
-    {% block ctcore_body %}
-    {% endblock %}
+    <div class="container">
+
+
+        {% block ctcore_body %}
+        {% endblock %}
+
+    </div>
 
 {% endblock %}
+

@@ -11,9 +11,13 @@
         <div class="row">
             <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
             <div class="col-md-8">
-                <h4>{{ movie.runTime|minutes_to_iso8601_duration }} - {% for genre in genres %}{{ genre.name }} |{% endfor %}</h4>
+                <h4>{% if movie.runTime == null %}N/A{% else %}{{ movie.runTime|minutes_to_iso8601_duration }}{% endif %} - {% for genre in genres %}{{ genre.name }}, {% endfor %}</h4>
                 <p>
-                    {{ movie.content }}
+                    {% if movie.content == null %}
+                        Nous n'avons pas encore d'informations en Français pour ce film. Veuillez nous excuser, nous y travaillons !
+                    {% else %}
+                        {{ movie.content }}
+                    {% endif %}
                 </p>
                 <div class="well well-sm">
                     <h4>Notations</h4>
@@ -32,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="well well-sm">
+                <div class="well well-sm ">
                     <h4>Notations avancées</h4>
                     <div class="progress">
                         <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.originality }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.originality*10 }}%;">

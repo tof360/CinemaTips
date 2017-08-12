@@ -9,11 +9,12 @@
 namespace CT\CoreBundle\Controller;
 
 use CT\CoreBundle\Entity\Movie;
+use CT\CoreBundle\Form\AdvancedSearchType;
+use CT\CoreBundle\Form\MovieSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use blackknight467\StarRatingBundle\Form\RatingType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use CT\CoreBundle\Form\MovieType;
+
 
 class MovieController extends Controller
 {
@@ -28,38 +29,86 @@ class MovieController extends Controller
 
     }
 
-    public function indexAction()
+    public function searchMovieAction(Request $request)
     {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('CTCoreBundle:Movie')
-        ;
 
-        $listMovies = $repository->findAll();
+        $formSearch = $this->get('form.factory')->create(MovieSearchType::class);
 
+        $listMovies = null;
 
+        if ($request->isMethod('POST') && $formSearch->handleRequest($request)->isValid()) {
 
-        return $this->render('CTCoreBundle:Movie:index.html.twig', array(
-            'listMovies' => $listMovies
-        ) );
+            $data = $formSearch->getData();
+
+            $client = $this->get('tmdb.client');
+
+            $listMovies = $client->getSearchApi()->searchMovies($data['title']);
+
+            return $this->render('CTCoreBundle:Movie:listMovies.html.twig', array(
+                'listMovies' => $listMovies,
+                'formSearch' => $formSearch->createView()
+
+            ));
+        }
+
+        return $this->render('CTCoreBundle:Movie:searchForm.html.twig', array(
+            'formSearch' => $formSearch->createView(),
+            'listMovies' => $listMovies,
+
+        ));
 
     }
 
+    public function advancedSearchAction(Request $request)
+    {
+        $form = $this->get('form.factory')->create(AdvancedSearchType::class);
+
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('CTCoreBundle:Movie')
+            ;
+
+            $data = $form->getData();
+
+            $listMovies = $repository->findMovieByParameters($data);
+
+            return $this->render('CTCoreBundle:Movie:advancedList.html.twig', array(
+                'listMovies' => $listMovies,
+                'data' => $data
+            ));
+
+
+
+
+        }
+
+        return $this->render('CTCoreBundle:Movie:advancedSearch.html.twig', array('form' => $form->createView()));
+    }
+
+    public function indexAction()
+    {
+
+        $listMovies = null;
+
+        return $this->render('CTCoreBundle:Movie:index.html.twig', array( 'searchListMovies' => $listMovies));
+
+    }
+
+
     public function movieAction($id)
     {
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('CTCoreBundle:Movie')
-        ;
+        $ctMovie = $this->loadMovieRepository($id);
 
         // On récupère l'entité correspondante à l'id $id
-        $ctMovie = $repository->find($id);
+
 
 
         $genres = $ctMovie->getGenres();
-        $crew = $ctMovie->getAuthor();
-        $cast = $ctMovie->getCast();
+        $crew = $ctMovie->getCredits()->getCrew();
+        $cast = $ctMovie->getCredits()->getCast();
         $movie = array(
             'title' => $ctMovie->getTitle(),
             'id' => $id,
@@ -145,7 +194,7 @@ class MovieController extends Controller
             'twist' => $ctMovie->getTwist(),
             'emotion' => $ctMovie->getEmotion(),
             'specialEffects' => $ctMovie->getSpecialEffects(),
-            'originality' => $ctMovie->getOriginilaty(),
+            'originality' => $ctMovie->getOriginality(),
             'voteCountCT' => $ctMovie->getVoteCountCT()
         );
 
@@ -162,6 +211,7 @@ class MovieController extends Controller
     {
 
 
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('CTCoreBundle:Movie')
@@ -170,19 +220,9 @@ class MovieController extends Controller
         // On récupère l'entité correspondante à l'id $id
         $ctMovie = $repository->find($id);
 
+        $form   = $this->get('form.factory')->create(MovieType::class, $ctMovie);
 
-        // On ajoute les champs de l'entité que l'on veut à notre formulaire
-        $form = $this->get('form.factory')->createBuilder(FormType::class, $ctMovie)
-            ->add('voteAverageCT', RatingType::class, ['stars'=> 10])
-            ->add('originilaty',      RatingType::class, ['stars' => 10])
-            ->add('specialEffects',     RatingType::class, ['stars' => 10])
-            ->add('emotion',   RatingType::class, ['stars' => 10])
-            ->add('twist',    RatingType::class, ['stars' => 10])
-            ->add('complexity', RatingType::class, ['stars' => 10])
-            ->add('violence', RatingType::class, ['stars' => 10])
-            ->add('save',      SubmitType::class)
-            ->getForm();
-        ;
+
         if ($request->isMethod('POST')) {
             // On fait le lien Requête <-> Formulaire
             // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
@@ -197,8 +237,6 @@ class MovieController extends Controller
                 $em->persist($ctMovie);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Vote bien enregistré.');
-
                 // On redirige vers la page de visualisation de l'annonce nouvellement créée
                 return $this->redirectToRoute('ct_core_view', array('id' => $id));
             }
@@ -208,18 +246,10 @@ class MovieController extends Controller
         // afin qu'elle puisse afficher le formulaire toute seule
         return $this->render('CTCoreBundle:Movie:edit.html.twig', array(
             'form' => $form->createView(),
-            'movie' => $ctMovie,
+            'movie' => $ctMovie
         ));
     }
 
-    public function deleteAction($id)
-    {
-        // Ici, on récupérera l'annonce correspondant à $id
-
-        // Ici, on gérera la suppression de l'annonce en question
-
-        return $this->render('CTCOreBundle:Movie:delete.html.twig');
-    }
 }
 
 

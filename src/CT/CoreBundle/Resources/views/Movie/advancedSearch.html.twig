@@ -2,11 +2,12 @@
 {% extends "CTCoreBundle::layout.html.twig" %}
 
 {% block title %}
-    Liste des Films - {{ parent() }}
+    Recherche avancée - {{ parent() }}
 {% endblock %}
 
 {% block ctcore_body %}
 
-        <h1> HOME PAGE A CONFIGURE</h1>
+{{ include("CTCoreBundle:Movie:advancedSearchForm.html.twig") }}
+
 
 {% endblock %}

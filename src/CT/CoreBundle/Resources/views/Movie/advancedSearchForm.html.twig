@@ -1,23 +1,11 @@
-
 <div class="well">
-    <h4>Formulaire de notations</h4>
+    <h4>Formulaire de recherche</h4>
+
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
     {# Les erreurs générales du formulaire. #}
     {{ form_errors(form) }}
 
-
-
-    {# Génération manuelle et éclatée : #}
-    <div class="form-group">
-        {# Génération du label. #}
-        {{ form_label(form.voteAverageCT, "Votre note générale du film", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-        <div class="col-sm-9">
-            {# Génération de l'input. #}
-            {{ form_widget(form.voteAverageCT) }}
-        </div>
-    </div>
-    <hr />
     <div class="form-group">
         {# Génération du label. #}
         {{ form_label(form.originality, "Originatlité", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
@@ -72,8 +60,6 @@
        Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
        et tous les champs cachés (type « hidden »). #}
     {{ form_rest(form) }}
-
-
 
 
     {# Fermeture de la balise <form> du formulaire HTML #}

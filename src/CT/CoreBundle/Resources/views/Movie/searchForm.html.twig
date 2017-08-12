@@ -1,0 +1,25 @@
+<div class="well research_form">
+
+    {{ form_start(formSearch, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(formSearch) }}
+
+
+    <div class="input-group">
+        {{ form_widget(formSearch.title, {'attr': {'class': 'form-control'}, 'attr' : {'placeholder' : 'A votre recheche !!! '}}) }}
+        <span class="input-group-btn">
+           {{ form_widget(formSearch.save, {'label': 'Go!'} , {'attr': {'class': 'btn btn-success'}}) }}
+      </span>
+    </div>
+
+
+
+
+    {{ form_rest(formSearch) }}
+
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(formSearch) }}
+
+</div>
