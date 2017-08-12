@@ -1,10 +1,6 @@
-{% extends "CTCoreBundle::layout.html.twig" %}
 
-{% block title %}
-    Liste des Films - {{ parent() }}
-{% endblock %}
+{{ include("CTCoreBundle:Movie:searchForm.html.twig") }}
 
-{% block ctcore_body %}
 
 <ul>
     {% for movie in listMovies.results|slice(0,5) %}
@@ -12,4 +8,3 @@
     {% endfor %}
 </ul>
 
-{% endblock %}

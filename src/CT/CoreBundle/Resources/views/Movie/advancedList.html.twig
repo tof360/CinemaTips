@@ -6,6 +6,8 @@
 
 {% block ctcore_body %}
 
+    {{ include("CTCoreBundle:Movie:advancedSearchForm.html.twig") }}
+
     <ul>
         {% for movie in listMovies|slice(0,5) %}
             {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}

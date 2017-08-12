@@ -77,7 +77,7 @@ class MovieController extends Controller
 
             return $this->render('CTCoreBundle:Movie:advancedList.html.twig', array(
                 'listMovies' => $listMovies,
-                'data' => $data
+                'form' => $form->createView()
             ));
 
 
