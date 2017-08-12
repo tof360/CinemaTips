@@ -10,12 +10,17 @@
 
         {{ render(controller("CTCoreBundle:Movie:searchMovie" , {request: app.request})) }}
 
-        <a class="btn btn-success" href="{{ path('ct_core_advancedsearch') }}" role="button"> Recherche avancée stratosphérique</a>
-
+        <div class="col-md-9">
+            CinemaTips vous propose un système de recherche avancé en fonction de plusiseurs critères : Originalité, Effects spéciaux, Emotions, Twist de fin, Complexité et violence.
+        </div>
+        <div class="col-md-3">
+            <div class="pull-right">
+                <a class="btn btn-success" href="{{ path('ct_core_advancedsearch') }}" role="button"> Recherche avancée stratosphérique</a>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-
+    <div class="well container">
 
         {% block ctcore_body %}
         {% endblock %}

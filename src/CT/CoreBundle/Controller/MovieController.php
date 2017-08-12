@@ -90,10 +90,14 @@ class MovieController extends Controller
 
     public function indexAction()
     {
+        $client = $this->get('tmdb.client');
 
-        $listMovies = null;
+        $repository = new \Tmdb\Repository\MovieRepository($client);
 
-        return $this->render('CTCoreBundle:Movie:index.html.twig', array( 'searchListMovies' => $listMovies));
+        $popular = $repository->getPopular(array('language' => 'fr'));
+
+
+        return $this->render('CTCoreBundle:Movie:index.html.twig', array( 'popularMovies' => $popular));
 
     }
 
