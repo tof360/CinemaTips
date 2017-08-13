@@ -126,4 +126,5 @@ fos_comment:
         model:
             comment: CT\CoreBundle\Entity\Comment
             thread: CT\CoreBundle\Entity\Thread
+            vote: CT\CoreBundle\Entity\Vote
 
