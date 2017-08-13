@@ -2,7 +2,7 @@
 {% extends "CTCoreBundle::layout.html.twig" %}
 
 {% block title %}
-    Liste des Films - {{ parent() }}
+    Accueil  - {{ parent() }}
 {% endblock %}
 
 {% block ctcore_body %}
@@ -20,7 +20,7 @@
             <div class="carousel-inner" role="listbox">
                 {% for movie in popularMovies|slice(0,1) %}
                 <div class="item active">
-                    {{ movie.backdropPath|tmdb_image_html('original', null, 300)|raw }}
+                    {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>{{ movie.title }}</h1>
@@ -33,7 +33,7 @@
 
                 {% for movie in popularMovies|slice(1,9) %}
                 <div class="item">
-                    {{ movie.backdropPath|tmdb_image_html('original', null, 300)|raw }}
+                    {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>{{ movie.title }}</h1>
@@ -60,7 +60,6 @@
 
     <div class="container marketing">
 
-        <!-- Three columns of text below the carousel -->
         <div class="row">
             <div class="col-lg-4">
                 <img class="img-circle" src="" alt="Generic placeholder image" width="140" height="140">

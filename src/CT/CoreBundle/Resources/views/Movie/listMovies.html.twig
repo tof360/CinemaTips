@@ -1,10 +1,10 @@
 
-{{ include("CTCoreBundle:Movie:searchForm.html.twig") }}
+{{ include('CTCoreBundle:Movie:searchForm.html.twig') }}
 
+<hr />
 
 <ul>
     {% for movie in listMovies.results|slice(0,5) %}
         {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
     {% endfor %}
 </ul>
-

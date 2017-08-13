@@ -44,6 +44,8 @@ class MovieController extends Controller
 
             $listMovies = $client->getSearchApi()->searchMovies($data['title']);
 
+            unset($_POST);
+
             return $this->render('CTCoreBundle:Movie:listMovies.html.twig', array(
                 'listMovies' => $listMovies,
                 'formSearch' => $formSearch->createView()
@@ -58,6 +60,7 @@ class MovieController extends Controller
         ));
 
     }
+
 
     public function advancedSearchAction(Request $request)
     {
