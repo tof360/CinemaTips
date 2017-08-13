@@ -32,6 +32,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    http_method_override: true
+
 
 # Twig Configuration
 twig:
@@ -116,4 +118,12 @@ tmdb_symfony:
             level: DEBUG
             handler: null
             subscriber: null
+
+
+fos_comment:
+    db_driver: orm
+    class:
+        model:
+            comment: CT\CoreBundle\Entity\Comment
+            thread: CT\CoreBundle\Entity\Thread
 

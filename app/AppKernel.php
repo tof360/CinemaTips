@@ -22,6 +22,9 @@ class AppKernel extends Kernel
             new Tmdb\SymfonyBundle\TmdbSymfonyBundle(),
             new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new blackknight467\StarRatingBundle\StarRatingBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
 
         ];
 

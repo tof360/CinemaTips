@@ -17,3 +17,6 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    webmaster: Christophe Henry
+    tmdb_api_key: 106fb224e3dafb36be307afe760425ac
