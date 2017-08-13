@@ -1,0 +1,20 @@
+body{
+    padding-top: 65px;
+    padding-bottom: 65px;
+}
+
+.navbar {
+    opacity: 0.75;
+}
+
+.row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.thumbnail {
+    height: 100%;
+}
+
+
+
+
