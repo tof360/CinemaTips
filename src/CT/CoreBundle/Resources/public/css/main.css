@@ -1,6 +1,7 @@
 body{
     padding-top: 65px;
     padding-bottom: 65px;
+    background-color: #222222;
 }
 
 .navbar {
@@ -14,6 +15,11 @@ body{
 .thumbnail {
     height: 100%;
 }
+
+.indexfunction{
+    padding-top: 5px;
+}
+
 
 
 
