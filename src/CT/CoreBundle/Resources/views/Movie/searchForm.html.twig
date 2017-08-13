@@ -7,7 +7,7 @@
 
 
     <li class="input-group mainsearch">
-        {{ form_widget(formSearch.title, {'attr': {'class': 'form-control'}, 'attr' : {'placeholder' : 'A votre recheche !!! '}}) }}
+        {{ form_widget(formSearch.title, {'attr': {'class': 'form-control'}, 'attr' : {'placeholder' : 'Recherchez n\'importe quel film ! '}}) }}
         <span class="input-group-btn">
            {{ form_widget(formSearch.save, {'label': 'Go!'} , {'attr': {'class': 'btn btn-success'}}) }}
       </span>
@@ -20,5 +20,6 @@
 
 
     {# Fermeture de la balise <form> du formulaire HTML #}
+
     {{ form_end(formSearch) }}
 

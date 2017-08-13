@@ -137,7 +137,7 @@ class MovieController extends Controller
         ));
     }
 
-    public function viewAction($id)
+    public function viewAction($id, Request $request)
     {
 
         $repository = $this->getDoctrine()
@@ -181,6 +181,19 @@ class MovieController extends Controller
 
 
 
+        $thread = $this->container->get('fos_comment.manager.thread')->findThreadById($id);
+        if (null === $thread) {
+            $thread = $this->container->get('fos_comment.manager.thread')->createThread();
+            $thread->setId($id);
+            $thread->setPermalink($request->getUri());
+
+            // Add the thread
+            $this->container->get('fos_comment.manager.thread')->saveThread($thread);
+        }
+
+        $comments = $this->container->get('fos_comment.manager.comment')->findCommentTreeByThread($thread);
+
+
         $genres = $ctMovie->getGenres();
         $crew = $ctMovie->getAuthor();
         $cast = $ctMovie->getCast();
@@ -210,6 +223,8 @@ class MovieController extends Controller
             'genres' => $genres,
             'cast' => $cast,
             'crew' => $crew,
+            'comments' => $comments,
+            'thread' => $thread,
         ));
     }
 
