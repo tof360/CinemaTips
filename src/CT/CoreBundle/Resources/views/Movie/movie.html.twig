@@ -1,4 +1,4 @@
-<div class="well">
+<div class="well container-fluid">
     <div class="row">
         <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
         <div class="col-md-5">

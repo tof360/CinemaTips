@@ -3,8 +3,9 @@
 
 <hr />
 
-<ul>
-    {% for movie in listMovies.results|slice(0,5) %}
-        {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
-    {% endfor %}
-</ul>
+    <ul>
+        {% for movie in listMovies.results|slice(0,5) %}
+            {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
+        {% endfor %}
+    </ul>
+

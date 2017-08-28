@@ -7,11 +7,12 @@
 {% block ctcore_body %}
 
     {{ include("CTCoreBundle:Movie:advancedSearchForm.html.twig") }}
-
+    <div class="container">
     <ul>
         {% for movie in listMovies|slice(0,5) %}
             {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
 
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}
