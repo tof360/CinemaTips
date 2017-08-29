@@ -3,9 +3,7 @@
 namespace CT\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Tmdb\Model\Collection\Genres;
-use Tmdb\Model\Collection\People\Cast;
-use Tmdb\Model\Collection\People\Crew;
+
 
 
 /**
@@ -63,28 +61,28 @@ class Movie
     /**
      * @var string
      *
-     * @ORM\Column(name="overview", type="string", length=255)
+     * @ORM\Column(name="overview", type="string", length=255, nullable=true)
      */
     private $overview;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="posterPath", type="string", length=255)
+     * @ORM\Column(name="posterPath", type="string", length=255, nullable=true)
      */
     private $posterPath;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="backdropPath", type="string", length=255)
+     * @ORM\Column(name="backdropPath", type="string", length=255, nullable=true)
      */
     private $backdropPath;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="voteAverage", type="float")
+     * @ORM\Column(name="voteAverage", type="float", nullable=true)
      */
     private $voteAverage;
 
@@ -154,9 +152,9 @@ class Movie
     /**
      * @var float
      *
-     * @ORM\Column(name="originilaty", type="float", nullable=true)
+     * @ORM\Column(name="originality", type="float", nullable=true)
      */
-    private $originilaty;
+    private $originality;
 
     /**
      * @var int
@@ -168,7 +166,7 @@ class Movie
     /**
      * @var float
      *
-     * @ORM\Column(name="voteAverageCT", type="float")
+     * @ORM\Column(name="voteAverageCT", type="float", nullable=true)
      */
     private $voteAverageCT;
 
@@ -183,6 +181,12 @@ class Movie
      * @ORM\Column(name="voteCountCT", type="integer", nullable=true)
      */
     private $voteCountCT;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"})
+     */
+    protected $users;
 
     public function __construct()
     {
@@ -489,7 +493,14 @@ class Movie
      */
     public function setViolence($violence)
     {
-        $this->violence = $violence;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->violence = $violence;
+        }
+        else
+        {
+            $this->violence = ($this->getViolence()*($this->getVoteCountCT()-1) + $violence)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -513,7 +524,14 @@ class Movie
      */
     public function setComplexity($complexity)
     {
-        $this->complexity = $complexity;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->complexity = $complexity;
+        }
+        else
+        {
+            $this->complexity = ($this->getComplexity()*($this->getVoteCountCT()-1) + $complexity)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -537,7 +555,14 @@ class Movie
      */
     public function setTwist($twist)
     {
-        $this->twist = $twist;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->twist = $twist;
+        }
+        else
+        {
+            $this->twist = ($this->getTwist()*($this->getVoteCountCT()-1) + $twist)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -561,7 +586,14 @@ class Movie
      */
     public function setEmotion($emotion)
     {
-        $this->emotion = $emotion;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->emotion = $emotion;
+        }
+        else
+        {
+            $this->emotion = (($this->getEmotion())*($this->getVoteCountCT()-1) + $emotion)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -585,7 +617,14 @@ class Movie
      */
     public function setSpecialEffects($specialEffects)
     {
-        $this->specialEffects = $specialEffects;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->specialEffects = $specialEffects;
+        }
+        else
+        {
+            $this->specialEffects = ($this->getSpecialEffects()*($this->getVoteCountCT()-1) + $specialEffects)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -603,13 +642,20 @@ class Movie
     /**
      * Set originilaty
      *
-     * @param float $originilaty
+     * @param float $originality
      *
      * @return Movie
      */
-    public function setOriginilaty($originilaty)
+    public function setOriginality($originality)
     {
-        $this->originilaty = $originilaty;
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->originality = $originality;
+        }
+        else
+        {
+            $this->originality = ($this->getOriginality()*($this->getVoteCountCT()-1) + $originality)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -619,9 +665,9 @@ class Movie
      *
      * @return float
      */
-    public function getOriginilaty()
+    public function getOriginality()
     {
-        return $this->originilaty;
+        return $this->originality;
     }
 
     /**
@@ -729,7 +775,15 @@ class Movie
      */
     public function setVoteAverageCT($voteAverageCT)
     {
-        $this->voteAverageCT = $voteAverageCT;
+
+        if($this->getVoteCountCT() == 0)
+        {
+            $this->voteAverageCT = $voteAverageCT;
+        }
+        else
+        {
+            $this->voteAverageCT = (($this->getVoteAverageCT())*($this->getVoteCountCT()-1) + $voteAverageCT)/($this->getVoteCountCT());
+        }
 
         return $this;
     }
@@ -743,4 +797,29 @@ class Movie
     {
         return $this->voteAverageCT;
     }
+
+    /**
+     * Set voteCountCT
+     *
+     * @return Movie
+     */
+    public function setVoteCountCT()
+    {
+        $this->voteCountCT = $this->getVoteCountCT() + 1;
+
+        return $this;
+    }
+
+    /**
+     * Get voteCountCT
+     *
+     * @return integer
+     */
+    public function getVoteCountCT()
+    {
+        return $this->voteCountCT;
+    }
+
+
+
 }

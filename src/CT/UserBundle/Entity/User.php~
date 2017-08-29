@@ -25,7 +25,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Entrez votre nom", groups={"Registration", "Profile"})
+     *
      * @Assert\Length(
      *     min=3,
      *     max=255,
@@ -39,7 +39,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Entrez votre prénom.", groups={"Registration", "Profile"})
+     *
      * @Assert\Length(
      *     min=3,
      *     max=255,
@@ -53,7 +53,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="borndate", type="datetime", nullable=true)
      *
-     * @Assert\NotBlank(message="Entrez votre date de naissance .", groups={"Registration", "Profile"})
+     *
      *
      */
     protected $borndate;
@@ -61,7 +61,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="country", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="D'où venez vous ?", groups={"Registration", "Profile"})
+     *
      * @Assert\Length(
      *     max=255,
      *     maxMessage="Trop long.",
@@ -73,7 +73,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Si vous avez un website ?", groups={"Registration", "Profile"})
+     *
      * @Assert\Length(
      *     max=255,
      *     maxMessage="Trop long.",
@@ -85,9 +85,14 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Une petite description", groups={"Registration", "Profile"})
+     *
      */
     protected $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\CoreBundle\Entity\Movie", cascade={"persist"}, mappedBy="users")
+     */
+    private $movies;
 
 
     /**

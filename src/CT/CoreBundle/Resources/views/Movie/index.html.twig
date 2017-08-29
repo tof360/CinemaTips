@@ -83,7 +83,12 @@
                     va attirer l’attention et surtout donner l’envie.  D’autre part, cet
                     outil va permettre decréer une collection de film. De plus, tous les mois, une liste des meilleurs films du moment et de toujours qui ne sont pas encore dans la collection du Libraire sera proposé.
                 </p>
-                <p><a class="btn btn-default" href="#" role="button">Vers votre Panneau Libraire &raquo;</a></p>
+                <p>{% if is_granted("ROLE_LIBRARY") %}
+                <a class="btn btn-default" href="#" role="button">Vers votre Panneau Libraire &raquo;</a>
+                {% else %}
+                 <a class="btn btn-default" href="#" role="button">Comment l'obtenir &raquo;</a>
+                 {%  endif %}
+                </p>
             </div>
         </div>
     </div>

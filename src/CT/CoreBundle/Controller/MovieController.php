@@ -14,6 +14,7 @@ use CT\CoreBundle\Form\MovieSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use CT\CoreBundle\Form\MovieType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class MovieController extends Controller
@@ -229,47 +230,70 @@ class MovieController extends Controller
     }
 
 
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
     public function editAction($id, Request $request)
     {
 
 
+        $session = $request->getSession();
 
         $repository = $this->getDoctrine()
             ->getManager()
-            ->getRepository('CTCoreBundle:Movie')
-        ;
+            ->getRepository('CTCoreBundle:Movie');
 
         // On récupère l'entité correspondante à l'id $id
         $ctMovie = $repository->find($id);
 
-        $form   = $this->get('form.factory')->create(MovieType::class, $ctMovie);
+        $currentUser = $this->getUser();
+        $users = $ctMovie->getUsers();
+        $voted = false;
+             foreach ($users as $user) {
+                 if ($currentUser == $user) $voted = true;
+             }
 
 
-        if ($request->isMethod('POST')) {
-            // On fait le lien Requête <-> Formulaire
-            // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
-            $form->handleRequest($request);
 
-            // On vérifie que les valeurs entrées sont correctes
-            // (Nous verrons la validation des objets en détail dans le prochain chapitre)
-            if ($form->isValid()) {
-                // On enregistre notre objet $advert dans la base de données, par exemple
-                $ctMovie->setVoteCountCT();
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($ctMovie);
-                $em->flush();
+                if ($voted == true) {
 
-                // On redirige vers la page de visualisation de l'annonce nouvellement créée
-                return $this->redirectToRoute('ct_core_view', array('id' => $id));
-            }
-        }
+                    $session->getFlashBag()->add('info', 'Vous avez déjà noté ce film !');
 
-        // On passe la méthode createView() du formulaire à la vue
-        // afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('CTCoreBundle:Movie:edit.html.twig', array(
-            'form' => $form->createView(),
-            'movie' => $ctMovie
-        ));
+                    return $this->redirectToRoute('ct_core_view', array('id' => $id));
+                } else {
+
+                    $form = $this->get('form.factory')->create(MovieType::class, $ctMovie);
+
+
+                    if ($request->isMethod('POST')) {
+                        // On fait le lien Requête <-> Formulaire
+                        // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
+                        $form->handleRequest($request);
+
+                        // On vérifie que les valeurs entrées sont correctes
+                        // (Nous verrons la validation des objets en détail dans le prochain chapitre)
+                        if ($form->isValid()) {
+                            // On enregistre notre objet $advert dans la base de données, par exemple
+                            $ctMovie->setVoteCountCT();
+                            $ctMovie->addUser($currentUser);
+                            $em = $this->getDoctrine()->getManager();
+                            $em->persist($ctMovie);
+                            $em->flush();
+
+                            $session->getFlashBag()->add('info', 'Votre vote a bien été pris en compte, merci !');
+
+                            // On redirige vers la page de visualisation de l'annonce nouvellement créée
+                            return $this->redirectToRoute('ct_core_view', array('id' => $id));
+                        }
+                    }
+
+                    // On passe la méthode createView() du formulaire à la vue
+                    // afin qu'elle puisse afficher le formulaire toute seule
+                    return $this->render('CTCoreBundle:Movie:edit.html.twig', array(
+                        'form' => $form->createView(),
+                        'movie' => $ctMovie
+                    ));
+                }
     }
 
 }

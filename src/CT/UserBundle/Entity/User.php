@@ -5,7 +5,7 @@ namespace CT\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -89,6 +89,18 @@ class User extends BaseUser
      */
     protected $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\CoreBundle\Entity\Movie", cascade={"persist"}, mappedBy="users")
+     */
+    private $movies;
+
+
+    public function __construct()
+    {
+
+        $this->movies = new ArrayCollection();
+        parent::__construct();
+    }
 
     /**
      * Set name
@@ -232,5 +244,39 @@ class User extends BaseUser
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Add movie
+     *
+     * @param \CT\CoreBundle\Entity\Movie $movie
+     *
+     * @return User
+     */
+    public function addMovie(\CT\CoreBundle\Entity\Movie $movie)
+    {
+        $this->movies[] = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Remove movie
+     *
+     * @param \CT\CoreBundle\Entity\Movie $movie
+     */
+    public function removeMovie(\CT\CoreBundle\Entity\Movie $movie)
+    {
+        $this->movies->removeElement($movie);
+    }
+
+    /**
+     * Get movies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMovies()
+    {
+        return $this->movies;
     }
 }

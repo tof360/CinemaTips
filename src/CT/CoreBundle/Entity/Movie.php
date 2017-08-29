@@ -3,6 +3,7 @@
 namespace CT\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 
@@ -182,8 +183,15 @@ class Movie
      */
     private $voteCountCT;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"}, inversedBy="movies")
+     */
+    protected $users;
+
     public function __construct()
     {
+        $this->users = new ArrayCollection();
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         //$this->genres = new genres();
         // $this->author = new crew();
@@ -812,5 +820,44 @@ class Movie
     public function getVoteCountCT()
     {
         return $this->voteCountCT;
+    }
+
+
+
+
+    /**
+     * Add user
+     *
+     * @param \CT\UserBundle\Entity\User $user
+     *
+     * @return Movie
+     */
+    public function addUser(\CT\UserBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        $user->addMovie($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \CT\UserBundle\Entity\User $user
+     */
+    public function removeUser(\CT\UserBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

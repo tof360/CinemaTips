@@ -7,6 +7,16 @@
 {% endblock %}
 
 {% block ctcore_body %}
+
+    {% if app.session.flashbag.get('info') is not defined %}
+    {% else %}
+    <div class="well container">
+        {# On affiche tous les messages flash dont le nom est « info » #}
+        {% for message in app.session.flashbag.get('info') %}
+            <p>Message flash : {{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="well container">
         <div class="row">
             <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
@@ -72,10 +82,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="pull-right">
+                <div class="poster">
                 {{ movie.posterPath|tmdb_image_html('original', null, 300)|raw }}
                 </div>
-                <div class="center-block">
+                <hr />
+                <div>
                     <p>
                     <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
                         Notez le film
@@ -83,14 +94,11 @@
                     </p>
                     <p>
                     <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
-                        Notez le film
+                        Ajoutez à votre collection Libraire
                     </a>
                     </p>
                     <p>
-                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
-                        Notez le film
-                    </a>
-                    </p>
+
                 </div>
                 </div>
             </div>
