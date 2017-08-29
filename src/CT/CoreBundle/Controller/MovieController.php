@@ -296,6 +296,20 @@ class MovieController extends Controller
                 }
     }
 
+    public function UserRatedListAction(){
+
+        $currentUser = $this->getUser();
+
+        $ratedList = $currentUser->getMovies();
+
+        return $this->render('CTCoreBundle:Movie:ratedList.html.twig', array(
+            'ratedList' => $ratedList
+        ));
+
+
+
+    }
+
 }
 
 

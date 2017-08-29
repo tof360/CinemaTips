@@ -8,16 +8,21 @@ body{
     opacity: 0.75;
 }
 
-.row.display-flex {
+.row.panel-body.display-flex{
     display: flex;
     flex-wrap: wrap;
 }
+
 .thumbnail {
     height: 100%;
 }
 
 .indexfunction{
     padding-top: 5px;
+}
+
+.input-group.mainsearch{
+    width: 70%;
 }
 
 

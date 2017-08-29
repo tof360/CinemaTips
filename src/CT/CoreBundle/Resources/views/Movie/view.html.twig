@@ -106,7 +106,7 @@
 
             <div class="panel panel-success container">
                 <div class="panel-heading">Crew</div>
-                <div class="panel-body display-flex">
+                <div class="row panel-body display-flex">
                 {% for person in crew %}
                     {% if person.job == 'Director' %}
                         <div class="col-sm-2 col-md-2">
@@ -137,7 +137,7 @@
             </div>
             <div class="panel panel-info container">
                 <div class="panel-heading">Cast</div>
-                <div class="panel-body display-flex">
+                <div class="row panel-body display-flex">
                 {% for person in cast|slice(0,6) if person.profilePath %}
                     <div class="col-sm-2 col-md-2">
                         <div class="thumbnail">

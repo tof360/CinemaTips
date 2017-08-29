@@ -1,0 +1,18 @@
+
+{% extends "CTCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Liste des films notés  - {{ parent() }}
+{% endblock %}
+
+{% block ctcore_body %}
+
+    <div class="well container">
+        <h2>Votre liste de films déjà notés/vus</h2>
+    {% for movie in ratedList %}
+
+        {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
+
+    {% endfor %}
+    </div>
+{% endblock %}

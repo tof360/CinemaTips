@@ -20,10 +20,10 @@ ct_core_advancedsearch:
     defaults:
         _controller: CTCoreBundle:Movie:advancedSearch
 
-ct_core_showlist:
-    path: /showlist
+ct_core_ratedlist:
+    path: /ratedlist
     defaults:
-       _controller: CTCoreBundle:Movie:showList
+       _controller: CTCoreBundle:Movie:UserRatedList
 
 fos_comment_api:
     type: rest
