@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block ctcore_body %}
-
+<div class="well container">
     <h2>Noter un film</h2>
 
     {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
 
 
     {{ include("CTCoreBundle:Movie:form.html.twig") }}
+</div>
 
 {% endblock %}

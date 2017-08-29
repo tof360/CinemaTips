@@ -185,13 +185,23 @@ class Movie
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"}, inversedBy="movies")
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", inversedBy="movies")
      */
     protected $users;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", inversedBy="movieList")
+     * @ORM\JoinTable(name="movie_bookseller")
+     */
+    protected $booksellers;
+
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->booksellers = new ArrayCollection();
+
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         //$this->genres = new genres();
         // $this->author = new crew();
@@ -859,5 +869,40 @@ class Movie
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add bookseller
+     *
+     * @param \CT\UserBundle\Entity\User $bookseller
+     *
+     * @return Movie
+     */
+    public function addBookseller(\CT\UserBundle\Entity\User $bookseller)
+    {
+        $this->booksellers[] = $bookseller;
+
+
+        return $this;
+    }
+
+    /**
+     * Remove bookseller
+     *
+     * @param \CT\UserBundle\Entity\User $bookseller
+     */
+    public function removeBookseller(\CT\UserBundle\Entity\User $bookseller)
+    {
+        $this->booksellers->removeElement($bookseller);
+    }
+
+    /**
+     * Get booksellers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBooksellers()
+    {
+        return $this->booksellers;
     }
 }

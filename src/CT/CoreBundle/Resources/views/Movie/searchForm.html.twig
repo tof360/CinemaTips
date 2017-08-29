@@ -1,21 +1,17 @@
 
-
     {{ form_start(formSearch, {'attr': {'class': 'form-horizontal'}}) }}
-
-
 
     <li class="input-group mainsearch">
         {{ form_widget(formSearch.title, {'attr': {'class': 'form-control'}, 'attr' : {'placeholder' : 'Recherchez n\'importe quel film ! '}}) }}
         <span class="input-group-btn">
            {{ form_widget(formSearch.save, {'label': 'Go!'} , {'attr': {'class': 'btn btn-success'}}) }}
-      </span>
+        </span>
+        <span>
+            <a class="btn btn-success pull-right" href="{{ path('ct_core_advancedsearch') }}" role="button"> Recherche avancée </a>
+        </span>
     </li>
 
-
-
-
     {{ form_rest(formSearch) }}
-
 
     {# Fermeture de la balise <form> du formulaire HTML #}
 

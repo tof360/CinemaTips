@@ -23,7 +23,19 @@ ct_core_advancedsearch:
 ct_core_ratedlist:
     path: /ratedlist
     defaults:
-       _controller: CTCoreBundle:Movie:UserRatedList
+       _controller: CTCoreBundle:Movie:userRatedList
+
+ct_core_librarypanel:
+    path: /librarypanel
+    defaults:
+       _controller: CTCoreBundle:Library:libraryPanel
+
+ct_core_addtolibrarylist:
+    path: /addtolist/{id}
+    defaults:
+       _controller: CTCoreBundle:Library:addToLibraryList
+
+
 
 fos_comment_api:
     type: rest

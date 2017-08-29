@@ -3,6 +3,7 @@
 namespace CT\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 
@@ -184,12 +185,20 @@ class Movie
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"}, inversedBy="movies")
      */
     protected $users;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\UserBundle\Entity\User", cascade={"persist"}, inversedBy="movieList")
+     */
+    protected $booksellers;
+
+
+
     public function __construct()
     {
+        $this->users = new ArrayCollection();
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         //$this->genres = new genres();
         // $this->author = new crew();
@@ -822,4 +831,40 @@ class Movie
 
 
 
+
+    /**
+     * Add user
+     *
+     * @param \CT\UserBundle\Entity\User $user
+     *
+     * @return Movie
+     */
+    public function addUser(\CT\UserBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        $user->addMovie($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \CT\UserBundle\Entity\User $user
+     */
+    public function removeUser(\CT\UserBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
 }

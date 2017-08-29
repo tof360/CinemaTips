@@ -7,9 +7,9 @@
 {% block body %}
 
     <div class="well container">
-        <div class="col">
-            {{ render(controller("CTCoreBundle:Movie:searchMovie" , {request: app.request})) }} <a class="btn btn-success pull-right" href="{{ path('ct_core_advancedsearch') }}" role="button"> Recherche avancée </a>
-        </div>
+
+            {{ render(controller("CTCoreBundle:Movie:searchMovie" , {request: app.request})) }}
+
     </div>
 
         {% block ctcore_body %}

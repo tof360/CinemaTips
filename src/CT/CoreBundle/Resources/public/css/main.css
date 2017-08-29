@@ -5,10 +5,10 @@ body{
 }
 
 .navbar {
-    opacity: 0.75;
+    opacity: 0.85;
 }
 
-.row.panel-body.display-flex{
+.row.display-flex {
     display: flex;
     flex-wrap: wrap;
 }
@@ -21,9 +21,7 @@ body{
     padding-top: 5px;
 }
 
-.input-group.mainsearch{
-    width: 70%;
-}
+
 
 
 

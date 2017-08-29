@@ -90,15 +90,23 @@ class User extends BaseUser
     protected $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="CT\CoreBundle\Entity\Movie", cascade={"persist"}, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="CT\CoreBundle\Entity\Movie", mappedBy="users")
      */
     private $movies;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CT\CoreBundle\Entity\Movie", mappedBy="booksellers")
+     * @ORM\JoinTable(name="movie_bookseller")
+     */
+    private $movieList;
 
 
     public function __construct()
     {
 
         $this->movies = new ArrayCollection();
+        $this->movieList = new ArrayCollection();
+
         parent::__construct();
     }
 
@@ -278,5 +286,43 @@ class User extends BaseUser
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Add movieList
+     *
+     * @param \CT\CoreBundle\Entity\Movie $movieList
+     *
+     * @return User
+     */
+    public function addMovieList(\CT\CoreBundle\Entity\Movie $movieList)
+    {
+        $this->movieList[] = $movieList;
+
+        $movieList->addBookseller($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove movieList
+     *
+     * @param \CT\CoreBundle\Entity\Movie $movieList
+     */
+    public function removeMovieList(\CT\CoreBundle\Entity\Movie $movieList)
+    {
+        $this->movieList->removeElement($movieList);
+
+        $movieList->removeBookseller($this);
+    }
+
+    /**
+     * Get movieList
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMovieList()
+    {
+        return $this->movieList;
     }
 }
