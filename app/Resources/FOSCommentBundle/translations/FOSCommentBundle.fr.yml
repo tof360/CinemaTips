@@ -1,0 +1,29 @@
+fos_comment_comment_new_headline_first:       Soyez le premier à émettre une critique
+fos_comment_comment_new_headline:             Ajouter une critique
+fos_comment_comment_new_submit:               Poster
+fos_comment_comment_new_cancel:               Annuler
+
+fos_comment_comment_edit_submit:              Poster
+fos_comment_comment_edit_cancel:              Annuler
+
+fos_comment_comment_reply_reply_to:           Répondre à %name%
+fos_comment_comment_reply_cancel:             Annuler
+
+fos_comment_comment_show_by:                  Par
+fos_comment_comment_show_voteup:              "J'aime"
+fos_comment_comment_show_votedown:            "Je n'aime pas"
+fos_comment_comment_show_reply:               Répondre
+
+fos_comment_comment_vote_score:               "Score: "
+
+fos_comment_comment_tree_load_more:           Afficher plus de réponses
+
+fos_comment_rss_feed:                         Flux RSS
+
+fos_comment_thread_close:                     Fermer le fil des critiques
+fos_comment_thread_open:                      Ouvrir le fil des critiques
+fos_comment_thread_comment_count:             "%count% Critique|%count% Critiques"
+fos_comment_comment_edit:                     Editer
+fos_comment_comment_delete:                   Supprimer la critique
+fos_comment_comment_undelete:                 Restaurer la critique
+fos_comment_comment_deleted:                  "[Supprimé]"

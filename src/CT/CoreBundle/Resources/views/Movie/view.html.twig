@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block ctcore_body %}
-    <div class="well">
+    <div class="well container">
         <div class="row">
             <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
             <div class="col-md-8">
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-            <div class="panel panel-success">
+            <div class="panel panel-success container">
                 <div class="panel-heading">Crew</div>
                 <div class="panel-body display-flex">
                 {% for person in crew %}
@@ -127,7 +127,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="panel panel-info">
+            <div class="panel panel-info container">
                 <div class="panel-heading">Cast</div>
                 <div class="panel-body display-flex">
                 {% for person in cast|slice(0,6) if person.profilePath %}
@@ -143,7 +143,7 @@
                 {% endfor %}
                 </div>
             </div>
-    <div class="well">
+    <div class="well container">
         <div id="fos_comment_thread" data-thread="{{ thread.id }}">
 
             {% include 'FOSCommentBundle:Thread:comments.html.twig' with {
