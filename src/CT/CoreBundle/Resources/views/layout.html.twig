@@ -11,7 +11,7 @@
             {{ render(controller("CTCoreBundle:Movie:searchMovie" , {request: app.request})) }}
 
     </div>
-    {% if app.session.flashbag.get('info') is not defined %}
+    {% if app.session.flashbag.get('info') is empty %}
     {% else %}
         <div class="well container">
             {# On affiche tous les messages flash dont le nom est « info » #}
@@ -19,6 +19,7 @@
                 <p>Message flash : {{ message }}</p>
             {% endfor %}
         </div>
+
     {% endif %}
 
         {% block ctcore_body %}

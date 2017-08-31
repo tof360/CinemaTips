@@ -77,24 +77,27 @@
                 </div>
                 <hr />
                 <div>
+                    {% if is_granted("ROLE_USER") %}
                     <p>
                     <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>
                         Notez le film
                     </a>
                     </p>
+                    {% endif %}
+                    {% if is_granted("ROLE_LIBRARY") %}
                     <p>
                     <a href="{{ path('ct_core_addtolibrarylist', {'id': movie.id}) }}" class="btn btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>
                         Ajoutez à votre collection Libraire
                     </a>
                     </p>
-                    <p>
+                    {% endif %}
 
                 </div>
                 </div>
             </div>
         </div>
-
-            <div class="panel panel-success container">
+        <div class="well container">
+            <div class="panel panel-success">
                 <div class="panel-heading">Crew</div>
                 <div class="row panel-body display-flex">
                 {% for person in crew %}
@@ -125,7 +128,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="panel panel-info container">
+            <div class="panel panel-info">
                 <div class="panel-heading">Cast</div>
                 <div class="row panel-body display-flex">
                 {% for person in cast|slice(0,6) if person.profilePath %}
@@ -141,6 +144,7 @@
                 {% endfor %}
                 </div>
             </div>
+        </div>
     <div class="well container">
         <div id="fos_comment_thread" data-thread="{{ thread.id }}">
 

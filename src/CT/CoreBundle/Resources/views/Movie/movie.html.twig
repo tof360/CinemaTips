@@ -4,6 +4,7 @@
          <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }}  ({{ movie.originalTitle }})</h3>
         </div>
         <div class="col-md-3">
+
             <p><a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_edit', {'id': movie.id})  }}" role="button">Notez le film !</a></p>
         </div>
     </div>

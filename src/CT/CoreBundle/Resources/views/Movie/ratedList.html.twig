@@ -9,10 +9,22 @@
 
     <div class="well container">
         <h2>Votre liste de films déjà notés/vus</h2>
+        <hr />
+    <div class="row display-flex">
     {% for movie in ratedList %}
 
-        {{ render(controller("CTCoreBundle:Movie:movie", {'id' : movie.id} )) }}
+        <div class="col-md-2">
+            <div class="thumbnail">
+                {{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}
+                <div class="caption">
+                    <h5><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a></h5>
+                    <p>Note TMDB : {{ movie.voteAverage }}</p>
+                    <p>Note CinemaTips : {{ movie.voteAverageCT }}</p>
+                </div>
+            </div>
+        </div>
 
     {% endfor %}
+    </div>
     </div>
 {% endblock %}

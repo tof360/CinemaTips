@@ -10,9 +10,10 @@
 
     <div class="btn-group btn-group-justified">
          <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Votre liste</a>
-         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Les films populaires</a>
-         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Les mieux notés</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel_popular') }}" role="button">Les films populaires</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel_toprated') }}" role="button">Les mieux notés</a>
          <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">10 films tendance</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel_view') }}" role="button">Affichage</a>
     </div>
 </div>
 
@@ -27,7 +28,7 @@
                          <div class="caption">
                              <h5><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a></h5>
                              <p>Note TMDB : {{ movie.voteAverage }}</p>
-                             <p>Note CinemaTips : {{ movie.voteAverageCT }}</p>
+                             <p>Note CinemaTips : {% if movie.voteAverageCT == null %} N/A {% else %}{{ movie.voteAverageCT }} {% endif %}</p>
 
                              <p><a class="btn btn-md btn-danger" href="{{ path('ct_core_removefromlibrarylist', {'id': movie.id}) }}" role="button">Supprimer</a></p>
                          </div>

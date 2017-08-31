@@ -54,6 +54,32 @@ class LibraryController extends Controller
         $em->flush();
     }
 
+    public function popularMovieAction()
+    {
+
+        $client = $this->get('tmdb.client');
+
+        $repository = new \Tmdb\Repository\MovieRepository($client);
+
+        $popular = $repository->getPopular(array('language' => 'fr'));
+
+
+        return $this->render( 'CTCoreBundle:Movie:libraryPopular.html.twig', array('popularMovies' => $popular));
+    }
+
+    public function topRatedMovieAction()
+    {
+
+        $client = $this->get('tmdb.client');
+
+        $repository = new \Tmdb\Repository\MovieRepository($client);
+
+        $topRated= $repository->getTopRated(array('language' => 'fr', 'page' => 1 ));
+
+
+
+        return $this->render( 'CTCoreBundle:Movie:libraryPopular.html.twig', array('popularMovies' => $topRated));
+    }
 
     /**
      * @Security("has_role('ROLE_LIBRARY')")
@@ -148,6 +174,12 @@ class LibraryController extends Controller
         $session->getFlashBag()->add('info', 'Le film a bien été retiré de votre liste');
 
         return $this->redirectToRoute('ct_core_librarypanel');
+    }
+
+    public function viewLibraryAction($id, Request $request)
+    {
+
+
     }
 
 

@@ -30,6 +30,21 @@ ct_core_librarypanel:
     defaults:
        _controller: CTCoreBundle:Library:libraryPanel
 
+ct_core_librarypanel_popular:
+    path: /librarypanel/popular
+    defaults:
+       _controller: CTCoreBundle:Library:popularMovie
+
+ct_core_librarypanel_toprated:
+    path: /librarypanel/toprated
+    defaults:
+       _controller: CTCoreBundle:Library:topRatedMovie
+
+ct_core_librarypanel_view:
+    path: /librarypanel/view
+    defaults:
+       _controller: CTCoreBundle:Library:viewLibrary
+
 ct_core_addtolibrarylist:
     path: /addtolist/{id}
     defaults:
