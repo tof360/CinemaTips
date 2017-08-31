@@ -30,6 +30,36 @@ class MovieController extends Controller
 
     }
 
+
+    public function addMovieToDB($id){
+
+        $movie = $this->loadMovieRepository($id);
+        $ctMovie = new Movie();
+        $ctMovie->setId($id);
+        $ctMovie->setVoteAverage($movie->getVoteAverage());
+        $ctMovie->setRunTime($movie->getRuntime());
+        $ctMovie->setTitle($movie->getTitle());
+        $ctMovie->setBackdropPath($movie->getBackdropPath());
+        $ctMovie->setGenres($movie->getGenres());
+        $ctMovie->setAuthor($movie->getCredits()->getCrew());
+        $ctMovie->setCast($movie->getCredits()->getCast());
+        $ctMovie->setOriginalLanguage($movie->getOriginalLanguage());
+        $ctMovie->setVoteCount($movie->getVoteCount());
+        $ctMovie->setReleaseDate($movie->getReleaseDate());
+        $ctMovie->setPosterPath($movie->getPosterPath());
+        $ctMovie->setOverview($movie->getOverview());
+        $ctMovie->setOriginalTitle($movie->getOriginalTitle());
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($ctMovie);
+
+        // Étape 2 : On « flush » tout ce qui a été persisté avant
+        $em->flush();
+    }
+
     public function searchMovieAction(Request $request)
     {
 
@@ -105,26 +135,64 @@ class MovieController extends Controller
 
     public function movieAction($id)
     {
-        $ctMovie = $this->loadMovieRepository($id);
+
+
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CTCoreBundle:Movie');
 
         // On récupère l'entité correspondante à l'id $id
+        $ctMovie = $repository->find($id);
+
+        if ($ctMovie == null){
+
+            $movie = $this->loadMovieRepository($id);
+
+            $genres = $movie->getGenres();
+            $crew = $movie->getCredits()->getCrew();
+            $cast = $movie->getCredits()->getCast();
+            $movie = array(
+                'title' => $movie->getTitle(),
+                'id' => $id,
+                'content' => $movie->getOverview(),
+                'date' => $movie->getReleaseDate(),
+                'backdropPath' => $movie->getBackdropPath(),
+                'posterPath' => $movie->getPosterPath(),
+                'originalTitle' => $movie->getOriginalTitle(),
+                'runTime' => $movie->getRuntime(),
+                'voteAverage' => $movie->getVoteAverage(),
+                'voteCount' => $movie->getVoteCount(),
+                'voteCountCT' => 0,
+            );
+
+        }else {
 
 
-        $genres = $ctMovie->getGenres();
-        $crew = $ctMovie->getCredits()->getCrew();
-        $cast = $ctMovie->getCredits()->getCast();
-        $movie = array(
-            'title' => $ctMovie->getTitle(),
-            'id' => $id,
-            'content' => $ctMovie->getOverview(),
-            'date' => $ctMovie->getReleaseDate(),
-            'backdropPath' => $ctMovie->getBackdropPath(),
-            'posterPath' => $ctMovie->getPosterPath(),
-            'originalTitle' => $ctMovie->getOriginalTitle(),
-            'runTime' => $ctMovie->getRuntime(),
-            'voteAverage' => $ctMovie->getVoteAverage(),
-            'voteCount' => $ctMovie->getVoteCount(),
-        );
+            $genres = $ctMovie->getGenres();
+            $crew = $ctMovie->getAuthor();
+            $cast = $ctMovie->getCast();
+            $movie = array(
+                'title' => $ctMovie->getTitle(),
+                'id' => $id,
+                'content' => $ctMovie->getOverview(),
+                'date' => $ctMovie->getReleaseDate(),
+                'backdropPath' => $ctMovie->getBackdropPath(),
+                'posterPath' => $ctMovie->getPosterPath(),
+                'originalTitle' => $ctMovie->getOriginalTitle(),
+                'runTime' => $ctMovie->getRuntime(),
+                'voteAverage' => $ctMovie->getVoteAverage(),
+                'voteCount' => $ctMovie->getVoteCount(),
+                'voteCountCT' => $ctMovie->getVoteCountCT(),
+                'voteAverageCT' => $ctMovie->getVoteAverageCT(),
+                'violence' => $ctMovie->getViolence(),
+                'complexity' => $ctMovie->getComplexity(),
+                'twist' => $ctMovie->getTwist(),
+                'emotion' => $ctMovie->getEmotion(),
+                'specialEffects' => $ctMovie->getSpecialEffects(),
+                'originality' => $ctMovie->getOriginality(),
+            );
+
+        }
 
         return $this->render('CTCoreBundle:Movie:movie.html.twig', array(
             'movie' => $movie,
@@ -146,34 +214,7 @@ class MovieController extends Controller
 
         // $ctMovie est donc une instance de OC\PlatformBundle\Entity\Movie
         // ou null si l'id $id  n'existe pas, d'où ce if :
-        if (null === $ctMovie) {
-            $movie = $this->loadMovieRepository($id);
-            $ctMovie = new Movie();
-            $ctMovie->setId($id);
-            $ctMovie->setVoteAverage($movie->getVoteAverage());
-            $ctMovie->setRunTime($movie->getRuntime());
-            $ctMovie->setTitle($movie->getTitle());
-            $ctMovie->setBackdropPath($movie->getBackdropPath());
-            $ctMovie->setGenres($movie->getGenres());
-            $ctMovie->setAuthor($movie->getCredits()->getCrew());
-            $ctMovie->setCast($movie->getCredits()->getCast());
-            $ctMovie->setOriginalLanguage($movie->getOriginalLanguage());
-            $ctMovie->setVoteCount($movie->getVoteCount());
-            $ctMovie->setReleaseDate($movie->getReleaseDate());
-            $ctMovie->setPosterPath($movie->getPosterPath());
-            $ctMovie->setOverview($movie->getOverview());
-            $ctMovie->setOriginalTitle($movie->getOriginalTitle());
-
-
-            // On récupère l'EntityManager
-            $em = $this->getDoctrine()->getManager();
-
-            // Étape 1 : On « persiste » l'entité
-            $em->persist($ctMovie);
-
-            // Étape 2 : On « flush » tout ce qui a été persisté avant
-            $em->flush();
-        }
+        if (null === $ctMovie) $this->addMovieToDB($id);
 
 
         $thread = $this->container->get('fos_comment.manager.thread')->findThreadById($id);
@@ -231,6 +272,8 @@ class MovieController extends Controller
     {
 
 
+
+
         $session = $request->getSession();
 
         $repository = $this->getDoctrine()
@@ -238,6 +281,10 @@ class MovieController extends Controller
             ->getRepository('CTCoreBundle:Movie');
 
         // On récupère l'entité correspondante à l'id $id
+        $ctMovie = $repository->find($id);
+
+        if (null === $ctMovie) $this->addMovieToDB($id);
+
         $ctMovie = $repository->find($id);
 
         $currentUser = $this->getUser();
@@ -288,6 +335,10 @@ class MovieController extends Controller
             ));
         }
     }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
 
     public function userRatedListAction()
     {

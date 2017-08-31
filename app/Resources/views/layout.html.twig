@@ -37,7 +37,9 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('fos_user_profile_edit') }}">Profil</a></li>
                                     <li><a href="{{ path('ct_core_ratedlist') }}">Films notés</a></li>
-                                    <li><a href="#">Something else here</a></li>
+                                    {% if is_granted("ROLE_LIBRARY") %}
+                                    <li><a href="{{ path('ct_core_librarypanel') }}">Administration Libraire</a></li>
+                                    {% endif %}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
                                 </ul>

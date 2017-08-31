@@ -35,6 +35,11 @@ ct_core_addtolibrarylist:
     defaults:
        _controller: CTCoreBundle:Library:addToLibraryList
 
+ct_core_removefromlibrarylist:
+    path: /removefromlist/{id}
+    defaults:
+       _controller: CTCoreBundle:Library:removeFromLibraryList
+
 
 
 fos_comment_api:

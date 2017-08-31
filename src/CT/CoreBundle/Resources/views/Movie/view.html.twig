@@ -7,16 +7,6 @@
 {% endblock %}
 
 {% block ctcore_body %}
-
-    {% if app.session.flashbag.get('info') is not defined %}
-    {% else %}
-    <div class="well container">
-        {# On affiche tous les messages flash dont le nom est « info » #}
-        {% for message in app.session.flashbag.get('info') %}
-            <p>Message flash : {{ message }}</p>
-        {% endfor %}
-    </div>
-    {% endif %}
     <div class="well container">
         <div class="row">
             <h3>{{ movie.title }} - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
@@ -88,12 +78,12 @@
                 <hr />
                 <div>
                     <p>
-                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
+                    <a href="{{ path('ct_core_edit', {'id': movie.id}) }}" class="btn btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>
                         Notez le film
                     </a>
                     </p>
                     <p>
-                    <a href="{{ path('ct_core_addtolibrarylist', {'id': movie.id}) }}" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>
+                    <a href="{{ path('ct_core_addtolibrarylist', {'id': movie.id}) }}" class="btn btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>
                         Ajoutez à votre collection Libraire
                     </a>
                     </p>

@@ -1,7 +1,15 @@
-<div class="well container-fluid">
+<div class="well container-fluid movie" style="background-image:url('{{ movie.backdropPath|tmdb_image_url}}');">
     <div class="row">
-        <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }} {{ movie.backdropPath|tmdb_image_html('original', null, 50)|raw }} ({{ movie.originalTitle }})</h3>
+        <div class="col-md-9">
+         <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }}  ({{ movie.originalTitle }})</h3>
+        </div>
+        <div class="col-md-3">
+            <p><a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_edit', {'id': movie.id})  }}" role="button">Notez le film !</a></p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-5">
+
             <h4>{% if movie.runTime == null %}N/A{% else %}{{ movie.runTime|minutes_to_iso8601_duration }}{% endif %}
                 - {% for genre in genres %}{{ genre.name }}, {% endfor %}
             </h4>
@@ -17,32 +25,44 @@
                     Note Moyenne : {{ movie.voteAverage }}
                 </div>
             </div>
+            {% if movie.voteCountCT != 0 %}
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverageCT }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverageCT*10 }}%;">
+                    CinemaTips : {{ movie.voteAverageCT*10 }}%
+                </div>
+            </div>
+            {% endif %}
+
 
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
 
-            Director :
-            <i>
+            <h4> Réalisateur(s) : </h4>
+
+
+                <i>
                 {% for person in crew %}
                     {% if person.job == 'Director' %}
-            <div class="row">
-                        {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} &nbsp;
-            </div>
+                        <p>{{ person.name }} &nbsp;</p>
                     {% endif %}
                 {% endfor %}
-            </i>
+                </i>
 
-            Acteurs :
-            <i>
-                {% for person in cast|slice(0,5) %}
-            <div class="row">
-                    {{ person.profilePath|tmdb_image_html('original', null, 50)|raw }}{{ person.name }} : {{ person.character }}
-            </div>
-                {% endfor %}
-            </i>
+            <h4>Acteurs :</h4>
+                <i>
+                    {% for person in cast|slice(0,5) %}
+                        <p>{{ person.name }} : {{ person.character }}</p>
+                    {% endfor %}
+                </i>
+
         </div>
-        <div class="col-md-2">
-            {{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}
+
+        <div class="col-md-3">
+            <p>{{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}</p>
+            {% if is_granted("ROLE_LIBRARY") %}
+            <p><a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_addtolibrarylist', {'id': movie.id})}}" role="button">Ajouter à votre liste</a></p>
+            {% endif %}
         </div>
+
     </div>
 </div>

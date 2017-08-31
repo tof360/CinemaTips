@@ -1,0 +1,42 @@
+{% extends "CTCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Panneau d'administration libraire  - {{ parent() }}
+{% endblock %}
+
+{% block ctcore_body %}
+
+<div class="well container">
+
+    <div class="btn-group btn-group-justified">
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Votre liste</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Les films populaires</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">Les mieux notés</a>
+         <a class="btn btn-md btn-success btn-block" href="{{ path('ct_core_librarypanel') }}" role="button">10 films tendance</a>
+    </div>
+</div>
+
+
+     <div class="well container">
+         <div class="row display-flex">
+         {% for movie in movieList %}
+
+                 <div class="col-md-2">
+                     <div class="thumbnail">
+                         {{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}
+                         <div class="caption">
+                             <h5><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a></h5>
+                             <p>Note TMDB : {{ movie.voteAverage }}</p>
+                             <p>Note CinemaTips : {{ movie.voteAverageCT }}</p>
+
+                             <p><a class="btn btn-md btn-danger" href="{{ path('ct_core_removefromlibrarylist', {'id': movie.id}) }}" role="button">Supprimer</a></p>
+                         </div>
+                     </div>
+                 </div>
+
+         {% endfor %}
+         </div>
+     </div>
+
+</div>
+{% endblock %}
