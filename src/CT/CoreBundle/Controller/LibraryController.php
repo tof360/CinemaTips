@@ -176,8 +176,17 @@ class LibraryController extends Controller
         return $this->redirectToRoute('ct_core_librarypanel');
     }
 
-    public function viewLibraryAction($id, Request $request)
+    public function viewLibraryAction()
     {
+
+
+        $currentUser = $this->getUser();
+        $movieList = $currentUser->getMovieList();
+
+
+
+        return $this->render('CTCoreBundle:Movie:viewLibrary.html.twig', array('movieList' => $movieList));
+
 
 
     }

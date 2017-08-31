@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}CinemaTips{% endblock %}</title>
+
+    {% block stylesheets %}
+        {# On charge le CSS de bootstrap depuis le site directement #}
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ctcore/css/viewcaroussel.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/foscomment/css/comments.css') }}" type="text/css" />
+    {% endblock %}
+</head>
+
+<body>
+
+
+<div id="myCarousel" class="fullscreen carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+
+    <div class="carousel-inner" role="listbox">
+        {% for movie in movieList|slice(0,1) %}
+            <div class="item active">
+                {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>{{ movie.title }}</h1>
+                        <p>{{ movie.overview }}</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for movie in movieList|slice(1,9) %}
+            <div class="item">
+                {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>{{ movie.title }}</h1>
+                        <p>{{ movie.overview }}</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Précédent</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Suivant</span>
+        </a>
+    </div>
+</div>
+
+
+
+{% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/424069c71f.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+    <script src="{{ asset('bundles/foscomment/js/comments.js') }}"></script>
+
+{% endblock %}
+
+</body>
+</html>
