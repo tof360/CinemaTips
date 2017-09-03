@@ -1,7 +1,15 @@
+
+
+
+
+
+
 <div class="well container-fluid movie" style="background-image:url('{{ movie.backdropPath|tmdb_image_url}}');">
-    <div class="row">
+    <div class="row movie">
         <div class="col-md-9">
+            <div class="title">
          <h3><a href="{{ path('ct_core_view', {'id': movie.id}) }}"> {{ movie.title }}</a> - {{ movie.date|date('Y') }}  ({{ movie.originalTitle }})</h3>
+        </div>
         </div>
         <div class="col-md-3">
 
@@ -10,33 +18,34 @@
     </div>
     <div class="row">
         <div class="col-md-5">
-
-            <h4>{% if movie.runTime == null %}N/A{% else %}{{ movie.runTime|minutes_to_iso8601_duration }}{% endif %}
-                - {% for genre in genres %}{{ genre.name }}, {% endfor %}
-            </h4>
-            <p>
-                {% if movie.content == null %}
-                Nous n'avons pas encore d'informations en Français pour ce film. Veuillez nous excuser, nous y travaillons !
-                {% else %}
-                {{ movie.content }}
+            <div class="text">
+                <h4>{% if movie.runTime == null %}N/A{% else %}{{ movie.runTime|minutes_to_iso8601_duration }}{% endif %}
+                    - {% for genre in genres %}{{ genre.name }}, {% endfor %}
+                </h4>
+                <p>
+                    {% if movie.content == null %}
+                    Nous n'avons pas encore d'informations en Français pour ce film. Veuillez nous excuser, nous y travaillons !
+                    {% else %}
+                        {{ movie.content|truncate(250, true) }}
+                    {% endif %}
+                </p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
+                        Note Moyenne : {{ movie.voteAverage }}
+                    </div>
+                </div>
+                {% if movie.voteCountCT != 0 %}
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverageCT }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverageCT*10 }}%;">
+                        CinemaTips : {{ movie.voteAverageCT*10 }}%
+                    </div>
+                </div>
                 {% endif %}
-            </p>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
-                    Note Moyenne : {{ movie.voteAverage }}
-                </div>
             </div>
-            {% if movie.voteCountCT != 0 %}
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverageCT }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverageCT*10 }}%;">
-                    CinemaTips : {{ movie.voteAverageCT*10 }}%
-                </div>
-            </div>
-            {% endif %}
-
-
         </div>
+
         <div class="col-md-4">
+            <div class="text">
 
             <h4> Réalisateur(s) : </h4>
 
@@ -57,6 +66,9 @@
                 </i>
 
         </div>
+        </div>
+
+
 
         <div class="col-md-3">
             <p>{{ movie.posterPath|tmdb_image_html('original', null, 200)|raw }}</p>

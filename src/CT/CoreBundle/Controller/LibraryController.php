@@ -173,6 +173,7 @@ class LibraryController extends Controller
 
         $session->getFlashBag()->add('info', 'Le film a bien été retiré de votre liste');
 
+
         return $this->redirectToRoute('ct_core_librarypanel');
     }
 
@@ -185,7 +186,11 @@ class LibraryController extends Controller
 
 
 
-        return $this->render('CTCoreBundle:Movie:viewLibrary.html.twig', array('movieList' => $movieList));
+
+
+        return $this->render('CTCoreBundle:Movie:viewLibrary.html.twig', array(
+            'movieList' => $movieList
+        ));
 
 
 

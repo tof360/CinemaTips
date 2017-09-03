@@ -21,26 +21,22 @@
                 {% for movie in popularMovies|slice(0,1) %}
                 <div class="item active">
                     {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
-                    <div class="container">
                         <div class="carousel-caption">
                             <h1>{{ movie.title }}</h1>
                             <p>{{ movie.overview }}</p>
                             <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
                         </div>
-                    </div>
                 </div>
                 {% endfor %}
 
                 {% for movie in popularMovies|slice(1,9) %}
                 <div class="item">
                     {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
-                    <div class="container">
                         <div class="carousel-caption">
                             <h1>{{ movie.title }}</h1>
                             <p>{{ movie.overview }}</p>
                             <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
                         </div>
-                    </div>
                 </div>
                 {% endfor %}
 

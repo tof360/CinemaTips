@@ -62,7 +62,7 @@ class Movie
     /**
      * @var string
      *
-     * @ORM\Column(name="overview", type="string", length=255, nullable=true)
+     * @ORM\Column(name="overview", type="text", nullable=true)
      */
     private $overview;
 
@@ -194,6 +194,15 @@ class Movie
      * @ORM\JoinTable(name="movie_bookseller")
      */
     protected $booksellers;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comments", type="text", nullable=true)
+     */
+
+    protected $comments;
 
 
 
@@ -904,5 +913,29 @@ class Movie
     public function getBooksellers()
     {
         return $this->booksellers;
+    }
+
+    /**
+     * Set comments
+     *
+     * @param string $comments
+     *
+     * @return Movie
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

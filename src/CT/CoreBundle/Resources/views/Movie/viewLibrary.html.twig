@@ -19,7 +19,7 @@
 <body>
 
 
-<div id="myCarousel" class="fullscreen carousel slide" data-ride="carousel">
+<div id="myCarousel" class="fullscreen carousel slide" data-ride="carousel" data-interval="30000">
     <!-- Indicators -->
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -32,29 +32,152 @@
         {% for movie in movieList|slice(0,1) %}
             <div class="item active">
                 {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>{{ movie.title }}</h1>
-                        <p>{{ movie.overview }}</p>
-                        <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
+
+                    <div class="carousel-caption block">
+                        <div class="col-md-4">
+                            <div class="overview">
+                                <h1>{{ movie.title }}</h1>
+                                <p>{{ movie.overview }}</p>
+                            </div>
+                            <div class="notation">
+                                <h4>Notations</h4>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
+                                        Note Global: {{ movie.voteAverage*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.originality }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.originality*10 }}%;">
+                                        Originalité: {{ movie.originality*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.specialEffects }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.specialEffects*10 }}%;">
+                                        Effets spéciaux: {{ movie.specialEffects*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.emotion }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.emotion*10 }}%;">
+                                        Emotions: {{ movie.emotion*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.twist }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.twist*10 }}%;">
+                                        Retournement final: {{ movie.twist*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.complexity }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.complexity*10 }}%;">
+                                        Complexité: {{ movie.complexity*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.violence }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.violence*10 }}%;">
+                                        Violence: {{ movie.violence*10 }}%
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 col-md-offset-4">
+                          <div class="overview">
+                            <h1>Disponible à la location ou à la vente</h1>
+                          </div>
+                            {{ movie.posterPath|tmdb_image_html('original', null, 400)|raw }}
+
+
+                            <div class="notation">
+                              <h4>Critique la plus apprécié</h4>
+                                <p>
+
+                                        {{ movie.comments }}
+
+
+                                </p>
+
+
+                            </div>
+
+                        </div>
+
+
+
+
                     </div>
-                </div>
             </div>
         {% endfor %}
 
-        {% for movie in movieList|slice(1,9) %}
+        {% for movie in movieList|slice(1,25) %}
             <div class="item">
                 {{ movie.backdropPath|tmdb_image_html('original', null, 100)|raw }}
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>{{ movie.title }}</h1>
-                        <p>{{ movie.overview }}</p>
-                        <p><a class="btn btn-lg btn-primary" href="{{ path('ct_core_view', {'id': movie.id}) }}" role="button">Vers la fiche du film</a></p>
+
+                    <div class="carousel-caption block">
+                        <div class="col-md-4">
+                            <div class="overview">
+                                <h1>{{ movie.title }}</h1>
+                                <p>{{ movie.overview }}</p>
+                            </div>
+                            <div class="notation">
+                                <h4>Notations</h4>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ movie.voteAverage }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.voteAverage*10 }}%;">
+                                        Note Global: {{ movie.voteAverage*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.originality }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.originality*10 }}%;">
+                                        Originalité: {{ movie.originality*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.specialEffects }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.specialEffects*10 }}%;">
+                                        Effets spéciaux: {{ movie.specialEffects*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.emotion }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.emotion*10 }}%;">
+                                        Emotions: {{ movie.emotion*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.twist }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.twist*10 }}%;">
+                                        Retournement final: {{ movie.twist*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.complexity }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.complexity*10 }}%;">
+                                        Complexité: {{ movie.complexity*10 }}%
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ movie.violence }}" aria-valuemin="0" aria-valuemax="10" style="width: {{ movie.violence*10 }}%;">
+                                        Violence: {{ movie.violence*10 }}%
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 col-md-offset-4">
+                            <div class="overview">
+                                <h1>Disponible à la location ou à la vente</h1>
+
+                            </div>
+                            {{ movie.posterPath|tmdb_image_html('original', null, 400)|raw }}
+
+
+                            <div class="notation">
+                                <h4>Critique la plus apprécié</h4>
+                                <p>
+
+                                        {{ movie.comments }}
+
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
             </div>
         {% endfor %}
-
 
         <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

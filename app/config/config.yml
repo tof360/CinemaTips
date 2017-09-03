@@ -44,6 +44,7 @@ twig:
     globals:
         webmaster: "%webmaster%"
 
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -141,7 +142,7 @@ fos_comment:
         comment:
             create: ROLE_USER
             view: IS_AUTHENTICATED_ANONYMOUSLY
-            edit: ROLE_ADMIN
+            edit: ROLE_USER
             delete: ROLE_ADMIN
         thread:
             create: ROLE_USER
